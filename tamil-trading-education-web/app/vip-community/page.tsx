@@ -71,7 +71,7 @@ export default function VipCommunityPage() {
             </div>
           </Reveal>
           <Reveal delay={0.1}>
-            <span className="eyebrow">What's Included</span>
+            <span className="eyebrow">What&apos;s Included</span>
             <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6">
               Everything inside the VIP Community
             </h2>

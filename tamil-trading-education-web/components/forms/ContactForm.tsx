@@ -58,7 +58,7 @@ export default function ContactForm() {
         ) : (
           <motion.form key="form" onSubmit={handleSubmit} className="space-y-5" exit={{ opacity: 0 }}>
             <span className="eyebrow">Send an Inquiry</span>
-            <h3 className="font-heading font-bold text-2xl mb-1">We'll get back to you within 24 hours</h3>
+            <h3 className="font-heading font-bold text-2xl mb-1">We&apos;ll get back to you within 24 hours</h3>
 
             <div className="grid sm:grid-cols-2 gap-5 pt-2">
               <Field label="Full Name" name="name" type="text" placeholder="Your name" required />
@@ -67,7 +67,7 @@ export default function ContactForm() {
             <Field label="Email Address" name="email" type="email" placeholder="you@email.com" required />
 
             <div>
-              <label className="block text-sm font-heading text-ink/60 mb-2">I'm interested in</label>
+              <label className="block text-sm font-heading text-ink/60 mb-2">I&apos;m interested in</label>
               <select
                 name="topic"
                 required

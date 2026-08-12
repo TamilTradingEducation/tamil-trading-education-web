@@ -52,7 +52,7 @@ export default function MarketAnalysisPage() {
             </Reveal>
           </div>
           <div>
-            <SectionHeading eyebrow="Economic Calendar" title={<>This Week's Key Events</>} />
+            <SectionHeading eyebrow="Economic Calendar" title={<>This Week&apos;s Key Events</>} />
             <Reveal delay={0.1}>
               <div className="glass-card p-2 md:p-3">
                 <EconomicCalendar height={440} />
@@ -76,7 +76,7 @@ export default function MarketAnalysisPage() {
       <section className="section bg-navy-800/20">
         <div className="container grid lg:grid-cols-2 gap-6">
           <div>
-            <SectionHeading eyebrow="Top Gainers & Losers" title={<>Today's Biggest Movers</>} />
+            <SectionHeading eyebrow="Top Gainers & Losers" title={<>Today&apos;s Biggest Movers</>} />
             <Reveal>
               <div className="glass-card p-2 md:p-3">
                 <HotlistsWidget height={420} />

@@ -24,7 +24,7 @@ export default function PrivacyPolicyPage() {
           <Reveal>
             <h2 className="text-xl font-heading font-bold text-ink mb-3">1. Information We Collect</h2>
             <p>
-              Tamil Trading Education ("we", "us", "our") collects only the information you
+              Tamil Trading Education (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;) collects only the information you
               choose to share with us — such as your name, phone number and email address —
               when you fill an inquiry or enrollment form on this website, or contact us via
               WhatsApp, Telegram, email or phone. We do not collect payment card details through

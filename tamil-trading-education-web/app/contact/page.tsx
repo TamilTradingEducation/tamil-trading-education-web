@@ -27,7 +27,7 @@ export default function ContactPage() {
     <>
       <PageHero
         eyebrow="Contact"
-        title={<>Let's talk <span className="gold-text">trading</span></>}
+        title={<>Let&apos;s talk <span className="gold-text">trading</span></>}
         description="Questions about a course, the community, or partnership support — reach out and our team will respond promptly."
         image={images.contactOffice}
         crumbLabel="Contact"

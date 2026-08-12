@@ -141,7 +141,7 @@ const slides = [
     eyebrow: "Trusted Partnerships",
     title: (
       <>
-        We're Official <span className="gold-text">IB Partners</span>
+        We&apos;re Official <span className="gold-text">IB Partners</span>
       </>
     ),
     description:

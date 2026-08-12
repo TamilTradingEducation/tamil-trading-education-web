@@ -49,7 +49,7 @@ export default function AboutPage() {
               Why we started Tamil Trading Education
             </h2>
             <p className="text-ink/60 mb-4 leading-relaxed">
-              Too many aspiring traders learn from scattered videos and anonymous "signal" groups
+              Too many aspiring traders learn from scattered videos and anonymous &quot;signal&quot; groups
               with no accountability. We built Tamil Trading Education to give beginners and
               professionals a single, structured place to learn — grounded in real market
               analysis, honest risk education, and long-term mentorship rather than promises of
@@ -71,7 +71,7 @@ export default function AboutPage() {
               <div className="glass-card p-7">
                 <span className="tag-pill mb-4 inline-block">Our Vision</span>
                 <p className="font-heading font-semibold text-lg leading-snug">
-                  Build one of India's most trusted Forex Trading communities.
+                  Build one of India&apos;s most trusted Forex Trading communities.
                 </p>
               </div>
             </div>

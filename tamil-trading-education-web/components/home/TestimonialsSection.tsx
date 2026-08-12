@@ -27,7 +27,7 @@ export default function TestimonialsSection() {
                     <Star key={idx} className="w-4 h-4 fill-gold-400 text-gold-400" />
                   ))}
                 </div>
-                <p className="text-ink/65 text-sm leading-relaxed flex-grow mb-6">"{t.quote}"</p>
+                <p className="text-ink/65 text-sm leading-relaxed flex-grow mb-6">&quot;{t.quote}&quot;</p>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gold-gradient flex items-center justify-center font-heading font-bold text-ink">
                     {t.name.charAt(0)}

@@ -78,7 +78,7 @@ export default function BrokerAssistancePage() {
               <p className="text-sm text-ink/70 leading-relaxed flex-1">
                 <strong className="text-gold-700">Using our referral code is mandatory</strong> for
                 the VIP access and dedicated support above to apply — an account opened without it
-                can't be linked to us after the fact in most cases, so double-check the code before
+                can&apos;t be linked to us after the fact in most cases, so double-check the code before
                 you submit your application.
               </p>
             </div>
@@ -202,7 +202,7 @@ export default function BrokerAssistancePage() {
           <Reveal>
             <p className="text-center text-sm text-ink/45 mt-10">
               Anything not working, or need help with a deposit, withdrawal, or other support
-              request? Message us — we'll contact the broker directly and resolve it.
+              request? Message us — we&apos;ll contact the broker directly and resolve it.
             </p>
             <div className="text-center mt-4">
               <a href={site.whatsapp} target="_blank" rel="noopener noreferrer" className="btn-whatsapp">

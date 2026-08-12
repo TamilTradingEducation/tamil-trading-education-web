@@ -74,9 +74,9 @@ export const ibPartners = [
  */
 export const usdtRates = {
   buy: 104,
-  sell: 99,
+  sell: 104,
   currency: "INR",
-  lastUpdated: "12 August 2026",
+  lastUpdated: "4 August 2026",
 };
 
 export const navLinks: NavLink[] = [

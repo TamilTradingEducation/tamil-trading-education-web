@@ -11,7 +11,7 @@ export default function NotFound() {
         <p className="font-mono text-gold-700 text-sm tracking-widest mb-3">ERROR 404</p>
         <h1 className="text-3xl md:text-4xl font-heading font-bold mb-4">This page moved markets.</h1>
         <p className="text-ink/55 max-w-md mx-auto mb-8">
-          The page you're looking for doesn't exist. Let's get you back to something useful.
+          The page you&apos;re looking for doesn&apos;t exist. Let&apos;s get you back to something useful.
         </p>
         <Link href="/" className="btn-gold">Back to Home</Link>
       </div>

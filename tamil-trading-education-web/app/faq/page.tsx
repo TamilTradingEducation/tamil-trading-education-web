@@ -39,7 +39,7 @@ export default function FAQPage() {
 
       <CTASection
         eyebrow="Still Have Questions?"
-        title={<>Our team is happy to answer anything we haven't covered</>}
+        title={<>Our team is happy to answer anything we haven&apos;t covered</>}
       />
     </>
   );
