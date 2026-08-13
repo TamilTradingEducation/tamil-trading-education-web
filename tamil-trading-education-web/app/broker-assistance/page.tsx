@@ -119,7 +119,7 @@ export default function BrokerAssistancePage() {
           <div className="grid lg:grid-cols-3 gap-6">
             {/* Vantage */}
             <Reveal>
-              <div className="glass-card p-7 h-full flex flex-col">
+              <div className="glass-card p-5 sm:p-7 h-full flex flex-col overflow-hidden">
                 <span className="tag-pill w-fit mb-4">{vantagePartner.name}</span>
                 <h3 className="font-heading font-semibold text-xl mb-4">Vantage</h3>
                 <a href={vantagePartner.accountLink} target="_blank" rel="noopener noreferrer" className="btn-gold w-full mb-4">
@@ -129,7 +129,7 @@ export default function BrokerAssistancePage() {
                   <p className="text-xs uppercase tracking-wide text-ink/50 mb-1.5">
                     Referral Code <span className="text-gold-700 font-bold">— Mandatory</span>
                   </p>
-                  <p className="font-mono text-3xl font-extrabold text-gold-700 tracking-wide">{vantagePartner.referralCode}</p>
+                  <p className="font-mono text-2xl sm:text-3xl font-extrabold text-gold-700 tracking-wide break-all">{vantagePartner.referralCode}</p>
                   <p className="text-xs text-ink/50 mt-2 leading-relaxed">
                     Auto-applied via the link above. <strong className="text-ink/70">You must use this code</strong> to receive free VIP community access and a dedicated relationship manager.
                   </p>
@@ -150,7 +150,7 @@ export default function BrokerAssistancePage() {
 
             {/* OctaFX */}
             <Reveal delay={0.08}>
-              <div className="glass-card p-7 h-full flex flex-col">
+              <div className="glass-card p-5 sm:p-7 h-full flex flex-col overflow-hidden">
                 <span className="tag-pill w-fit mb-4">{octafxPartner.name}</span>
                 <h3 className="font-heading font-semibold text-xl mb-4">OctaFX</h3>
                 <a href={octafxPartner.accountLink} target="_blank" rel="noopener noreferrer" className="btn-gold w-full mb-4">
@@ -160,7 +160,7 @@ export default function BrokerAssistancePage() {
                   <p className="text-xs uppercase tracking-wide text-ink/50 mb-1.5">
                     Referral Code <span className="text-gold-700 font-bold">— Mandatory</span>
                   </p>
-                  <p className="font-mono text-3xl font-extrabold text-gold-700 tracking-wide">{octafxPartner.referralCode}</p>
+                  <p className="font-mono text-2xl sm:text-3xl font-extrabold text-gold-700 tracking-wide break-all">{octafxPartner.referralCode}</p>
                   <p className="text-xs text-ink/50 mt-2 leading-relaxed">
                     Auto-applied via the link above. <strong className="text-ink/70">You must use this code</strong> to receive free VIP community access and a dedicated relationship manager.
                   </p>
@@ -183,7 +183,7 @@ export default function BrokerAssistancePage() {
 
             {/* XM */}
             <Reveal delay={0.16}>
-              <div className="glass-card p-7 h-full flex flex-col">
+              <div className="glass-card p-5 sm:p-7 h-full flex flex-col overflow-hidden">
                 <span className="tag-pill w-fit mb-4">{xmPartner.name}</span>
                 <h3 className="font-heading font-semibold text-xl mb-4">XM</h3>
                 <p className="text-ink/55 text-sm mb-6 flex-grow">{xmPartner.note}</p>

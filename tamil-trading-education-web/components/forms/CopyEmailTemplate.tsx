@@ -22,11 +22,11 @@ export default function CopyEmailTemplate({ to, cc, subject, body }: CopyEmailTe
   }
 
   return (
-    <div className="rounded-xl2 border border-navy-600/20 bg-navy-100 p-6 font-mono text-sm leading-relaxed">
-      <p className="text-ink/45 mb-2">To: <span className="text-ink/85 font-semibold">{to}</span></p>
-      <p className="text-ink/45 mb-2">Cc: <span className="text-ink/85 font-semibold">{cc.join(", ")}</span></p>
-      <p className="text-ink/45 mb-4">Subject: <span className="text-ink/85 font-semibold">{subject}</span></p>
-      <p className="text-ink/85 whitespace-pre-line border-t border-ink/10 pt-4 text-[15px]">{body}</p>
+    <div className="rounded-xl2 border border-navy-600/20 bg-navy-100 p-4 sm:p-6 font-mono text-xs sm:text-sm leading-relaxed overflow-hidden max-w-full">
+      <p className="text-ink/45 mb-2 break-words">To: <span className="text-ink/85 font-semibold break-all">{to}</span></p>
+      <p className="text-ink/45 mb-2 break-words">Cc: <span className="text-ink/85 font-semibold break-all">{cc.join(", ")}</span></p>
+      <p className="text-ink/45 mb-4 break-words">Subject: <span className="text-ink/85 font-semibold break-words">{subject}</span></p>
+      <p className="text-ink/85 whitespace-pre-line break-words border-t border-ink/10 pt-4 text-sm sm:text-[15px]">{body}</p>
       <button
         onClick={handleCopy}
         className="mt-5 inline-flex items-center gap-2 text-sm font-heading font-bold text-gold-700 hover:text-gold-800 transition-colors"

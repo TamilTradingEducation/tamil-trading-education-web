@@ -227,45 +227,49 @@ export default function Hero() {
 
       <div className="container relative py-28 md:py-32">
         <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-14 items-center">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={active}
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <span className="eyebrow">{slide.eyebrow}</span>
-              <h1 className="text-4xl sm:text-5xl lg:text-[3.6rem] font-heading font-bold leading-[1.05] mb-6">
-                {slide.title}
-              </h1>
-              <p className="text-lg text-ink/65 max-w-xl mb-9 leading-relaxed">{slide.description}</p>
-
-              <div className="flex flex-wrap gap-4 mb-12">{slide.buttons}</div>
-
-              {slide.showStats && (
-                <div className="flex flex-wrap gap-x-10 gap-y-5">
-                  {stats.slice(0, 3).map((s) => (
-                    <div key={s.label}>
-                      <div className="font-mono text-3xl font-bold text-gold-700">
-                        <AnimatedCounter value={s.value} suffix={s.suffix} />
-                      </div>
-                      <div className="text-xs uppercase tracking-wider text-ink/45 mt-1">{s.label}</div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </motion.div>
-          </AnimatePresence>
-
-          <div className="relative hidden lg:block">
+          <div style={{ perspective: 1400 }} className="min-h-[380px] sm:min-h-[340px] lg:min-h-[420px]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={active}
-                initial={{ opacity: 0, scale: 0.94 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.96 }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                initial={{ opacity: 0, rotateY: 35, x: 40 }}
+                animate={{ opacity: 1, rotateY: 0, x: 0 }}
+                exit={{ opacity: 0, rotateY: -35, x: -40 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                <span className="eyebrow">{slide.eyebrow}</span>
+                <h1 className="text-4xl sm:text-5xl lg:text-[3.6rem] font-heading font-bold leading-[1.05] mb-6">
+                  {slide.title}
+                </h1>
+                <p className="text-lg text-ink/65 max-w-xl mb-9 leading-relaxed">{slide.description}</p>
+
+                <div className="flex flex-wrap gap-4 mb-12">{slide.buttons}</div>
+
+                {slide.showStats && (
+                  <div className="flex flex-wrap gap-x-10 gap-y-5">
+                    {stats.slice(0, 3).map((s) => (
+                      <div key={s.label}>
+                        <div className="font-mono text-3xl font-bold text-gold-700">
+                          <AnimatedCounter value={s.value} suffix={s.suffix} />
+                        </div>
+                        <div className="text-xs uppercase tracking-wider text-ink/45 mt-1">{s.label}</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <div className="relative hidden lg:block min-h-[420px]" style={{ perspective: 1400 }}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={active}
+                initial={{ opacity: 0, rotateY: -30, scale: 0.94 }}
+                animate={{ opacity: 1, rotateY: 0, scale: 1 }}
+                exit={{ opacity: 0, rotateY: 30, scale: 0.96 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                style={{ transformStyle: "preserve-3d" }}
               >
                 {slide.visual}
               </motion.div>
@@ -289,16 +293,20 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2.5 mt-10">
+        <div className="flex items-center gap-1 mt-10">
           {slides.map((_, i) => (
             <button
               key={i}
               onClick={() => setActive(i)}
               aria-label={`Go to slide ${i + 1}`}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === active ? "w-8 bg-gold-500" : "w-1.5 bg-ink/20 hover:bg-ink/35"
-              }`}
-            />
+              className="p-3 -m-1 flex items-center justify-center touch-manipulation"
+            >
+              <span
+                className={`block h-2 rounded-full transition-all duration-300 ${
+                  i === active ? "w-9 bg-gold-500" : "w-2 bg-ink/25"
+                }`}
+              />
+            </button>
           ))}
         </div>
       </div>

@@ -2,6 +2,7 @@ import * as Icons from "lucide-react";
 import Link from "next/link";
 import SectionHeading from "@/components/shared/SectionHeading";
 import Reveal from "@/components/shared/Reveal";
+import CardSwiper from "@/components/shared/CardSwiper";
 import { services } from "@/lib/data";
 import { LucideIcon } from "lucide-react";
 
@@ -19,7 +20,7 @@ export default function ServicesGrid() {
           description="From your first lesson to VIP-level mentorship — structured support at every stage of your trading journey."
           center
         />
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <CardSwiper gridClass="sm:grid-cols-2 lg:grid-cols-4">
           {services.map((s, i) => {
             const Icon = (Icons as unknown as Record<string, LucideIcon>)[s.icon] ?? Icons.LineChart;
             return (
@@ -34,7 +35,7 @@ export default function ServicesGrid() {
               </Reveal>
             );
           })}
-        </div>
+        </CardSwiper>
         <div className="text-center mt-12">
           <Link href="/contact" className="btn-outline">Discuss Your Goals With Us</Link>
         </div>

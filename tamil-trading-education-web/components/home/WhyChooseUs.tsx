@@ -1,6 +1,7 @@
 import { GraduationCap, Radio, Users, HeartHandshake, BookOpenCheck, LifeBuoy } from "lucide-react";
 import SectionHeading from "@/components/shared/SectionHeading";
 import Reveal from "@/components/shared/Reveal";
+import CardSwiper from "@/components/shared/CardSwiper";
 
 const reasons = [
   {
@@ -48,7 +49,7 @@ export default function WhyChooseUs() {
           }
           center
         />
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <CardSwiper gridClass="sm:grid-cols-2 lg:grid-cols-3">
           {reasons.map((r, i) => (
             <Reveal key={r.title} delay={i * 0.06}>
               <div className="glass-card p-7 h-full hover:border-gold-500/40 hover:-translate-y-1.5 transition-all duration-300">
@@ -60,7 +61,7 @@ export default function WhyChooseUs() {
               </div>
             </Reveal>
           ))}
-        </div>
+        </CardSwiper>
       </div>
     </section>
   );

@@ -21,7 +21,9 @@ export default function EnrollmentForm() {
     }).catch(() => {});
 
     const message = [
-      "New course enrollment request — Tamil Trading Education",
+      "Hello Tamil Trading Education team,",
+      "",
+      "I'd like to enroll in a course:",
       `Name: ${data.name}`,
       `Phone: ${data.phone}`,
       `Email: ${data.email}`,
@@ -29,7 +31,7 @@ export default function EnrollmentForm() {
       `Experience: ${data.experience || "Not provided"}`,
     ].join("\n");
 
-    window.open(`${site.whatsapp}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+    window.open(`${site.whatsappEnrollment}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
 
     setStatus("success");
     form.reset();

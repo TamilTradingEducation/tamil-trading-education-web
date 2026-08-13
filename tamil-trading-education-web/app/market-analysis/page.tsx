@@ -3,7 +3,7 @@ import { AlertTriangle } from "lucide-react";
 import PageHero from "@/components/layout/PageHero";
 import SectionHeading from "@/components/shared/SectionHeading";
 import Reveal from "@/components/shared/Reveal";
-import AdvancedChart from "@/components/market/AdvancedChart";
+import AuthorIdeasFeed from "@/components/market/AuthorIdeasFeed";
 import MarketOverview from "@/components/market/MarketOverview";
 import EconomicCalendar from "@/components/market/EconomicCalendar";
 import ForexHeatmap from "@/components/market/ForexHeatmap";
@@ -32,10 +32,10 @@ export default function MarketAnalysisPage() {
 
       <section className="section">
         <div className="container">
-          <SectionHeading eyebrow="Live Chart" title={<>Advanced Real-Time Chart</>} />
+          <SectionHeading eyebrow="Live Chart" title={<>Our Daily Chart Ideas</>} description="Published directly from our TradingView profile — updates the moment we post a new one." />
           <Reveal>
             <div className="glass-card p-2 md:p-3">
-              <AdvancedChart symbol="OANDA:XAUUSD" height={780} />
+              <AuthorIdeasFeed height={780} />
             </div>
           </Reveal>
         </div>

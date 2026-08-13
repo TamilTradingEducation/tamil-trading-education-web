@@ -1,16 +1,17 @@
 import { AlertTriangle } from "lucide-react";
 import SectionHeading from "@/components/shared/SectionHeading";
 import Reveal from "@/components/shared/Reveal";
-import AdvancedChart from "@/components/market/AdvancedChart";
+import AuthorIdeasFeed from "@/components/market/AuthorIdeasFeed";
 import TechnicalAnalysisGauge from "@/components/market/TechnicalAnalysisGauge";
 import Link from "next/link";
 
 /**
- * Home page live market section — locked to XAUUSD (Gold) only, since
- * that's the sole instrument this business trades. To change the symbol
- * later, edit the `symbol` prop passed to both widgets below (e.g. to
- * "OANDA:EURUSD" for Euro/Dollar). TradingView symbol format is
- * EXCHANGE:TICKER — OANDA is used for forex/metals pairs.
+ * Home page live market section — shows Kripson's own daily gold chart
+ * ideas (posted on TradingView) instead of a generic chart, plus a live
+ * XAUUSD buy/sell signal gauge. The ideas feed updates automatically
+ * whenever a new chart is published — no manual embedding needed.
+ * To change the TradingView username later, edit `username` in
+ * components/market/AuthorIdeasFeed.tsx.
  */
 export default function LiveMarketSection() {
   return (
@@ -20,15 +21,15 @@ export default function LiveMarketSection() {
           eyebrow="Live Gold Market"
           title={
             <>
-              Real-time XAU/USD, right on our <span className="gold-text">homepage</span>
+              Our own daily XAU/USD chart ideas, right on our <span className="gold-text">homepage</span>
             </>
           }
-          description="Powered by TradingView — a live, auto-updating gold chart plus a real-time buy/sell signal gauge, since gold is what we trade."
+          description="Straight from our TradingView profile — the same chart we draw and publish with our own strategy, every trading day, plus a real-time buy/sell signal gauge."
         />
         <div className="grid lg:grid-cols-[1.6fr_1fr] gap-6">
           <Reveal>
             <div className="glass-card p-2 md:p-3">
-              <AdvancedChart symbol="OANDA:XAUUSD" height={780} />
+              <AuthorIdeasFeed height={780} />
             </div>
           </Reveal>
           <Reveal delay={0.1}>
@@ -39,8 +40,9 @@ export default function LiveMarketSection() {
                 <AlertTriangle className="w-4 h-4 text-down shrink-0 mt-0.5" />
                 <p className="text-xs text-ink/60 leading-relaxed">
                   This signal is an automated technical indicator summary from TradingView, not
-                  personalised financial advice. It is provided for educational reference only —
-                  always apply your own risk management before trading.
+                  personalised financial advice. Chart ideas above are our own trading analysis
+                  for educational reference only — always apply your own risk management before
+                  trading.
                 </p>
               </div>
             </div>

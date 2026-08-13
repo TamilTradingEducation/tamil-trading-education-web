@@ -143,7 +143,7 @@ export default function Header() {
         </div>
 
         <button
-          className="2xl:hidden w-10 h-10 flex items-center justify-center rounded-lg border border-white/15 shrink-0"
+          className="2xl:hidden w-10 h-10 flex items-center justify-center rounded-lg border border-white/15 shrink-0 text-white"
           onClick={() => setOpen(!open)}
           aria-label="Toggle menu"
         >
