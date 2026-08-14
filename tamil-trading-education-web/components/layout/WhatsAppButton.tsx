@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { MessageCircle, X, UserPlus, Users, Coins, HelpCircle } from "lucide-react";
+import { MessageCircle, X, UserPlus, GraduationCap, Users, Coins, Landmark, HelpCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { site } from "@/lib/data";
 
@@ -9,26 +9,44 @@ import { site } from "@/lib/data";
  * Floating action button — expands into a short menu of the most common
  * reasons someone reaches out, each opening WhatsApp with a relevant
  * pre-filled message instead of dumping every visitor into one blank chat.
+ * "Course Enrollment" routes to the dedicated enrollment number
+ * (site.whatsappEnrollment) — every other option uses the main number.
  */
 const options = [
   {
-    label: "Open a Broker Account",
+    label: "Account Opening",
     icon: UserPlus,
+    number: "whatsapp" as const,
     message: "Hi, I'd like to open a trading account through Tamil Trading Education. Please guide me.",
   },
   {
-    label: "Join VIP Community",
+    label: "Course Enrollment",
+    icon: GraduationCap,
+    number: "whatsappEnrollment" as const,
+    message: "Hi, I'd like to enroll in a course. Could you share the details?",
+  },
+  {
+    label: "VIP Trading Community",
     icon: Users,
+    number: "whatsapp" as const,
     message: "Hi, I'm interested in joining the VIP Community. Could you share the details?",
   },
   {
-    label: "Buy / Sell USDT",
+    label: "USDT Buy / Sell",
     icon: Coins,
+    number: "whatsapp" as const,
     message: "Hi, I'd like to buy/sell USDT. Please confirm today's rate.",
   },
   {
-    label: "General Question",
+    label: "IB / Broker Support",
+    icon: Landmark,
+    number: "whatsapp" as const,
+    message: "Hi, I need help with my broker account (Vantage / OctaFX / XM). Please assist.",
+  },
+  {
+    label: "General Enquiry",
     icon: HelpCircle,
+    number: "whatsapp" as const,
     message: "Hi, I have a question about Tamil Trading Education.",
   },
 ];
@@ -54,7 +72,7 @@ export default function WhatsAppButton() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="glass-card p-2 w-64 shadow-soft"
+            className="glass-card p-2 w-64 shadow-soft max-h-[70vh] overflow-y-auto"
           >
             <p className="px-3 pt-2 pb-1 text-xs font-heading font-semibold text-ink/50 uppercase tracking-wide">
               How can we help?
@@ -62,7 +80,7 @@ export default function WhatsAppButton() {
             {options.map((opt) => (
               <a
                 key={opt.label}
-                href={`${site.whatsapp}?text=${encodeURIComponent(opt.message)}`}
+                href={`${site[opt.number]}?text=${encodeURIComponent(opt.message)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setOpen(false)}

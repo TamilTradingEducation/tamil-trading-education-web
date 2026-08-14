@@ -20,7 +20,7 @@ export default function ServicesGrid() {
           description="From your first lesson to VIP-level mentorship — structured support at every stage of your trading journey."
           center
         />
-        <CardSwiper gridClass="sm:grid-cols-2 lg:grid-cols-4">
+        <CardSwiper gridClass="sm:grid-cols-2 lg:grid-cols-4" maxAngle={26}>
           {services.map((s, i) => {
             const Icon = (Icons as unknown as Record<string, LucideIcon>)[s.icon] ?? Icons.LineChart;
             return (

@@ -49,7 +49,7 @@ export default function WhyChooseUs() {
           }
           center
         />
-        <CardSwiper gridClass="sm:grid-cols-2 lg:grid-cols-3">
+        <CardSwiper gridClass="sm:grid-cols-2 lg:grid-cols-3" maxAngle={18}>
           {reasons.map((r, i) => (
             <Reveal key={r.title} delay={i * 0.06}>
               <div className="glass-card p-7 h-full hover:border-gold-500/40 hover:-translate-y-1.5 transition-all duration-300">

@@ -11,9 +11,12 @@ const config: Config = {
     container: {
       center: true,
       padding: "1.25rem",
-      screens: { "2xl": "1280px" },
+      screens: { "2xl": "1280px", "3xl": "1520px" },
     },
     extend: {
+      screens: {
+        "3xl": "1800px",
+      },
       colors: {
         // Light "surface" scale for the main page body — kept under the
         // name "navy" so every existing bg-navy-*/text-navy-* class in the

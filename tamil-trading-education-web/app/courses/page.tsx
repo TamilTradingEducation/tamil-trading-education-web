@@ -34,7 +34,7 @@ export default function CoursesPage() {
 
       <section className="section">
         <div className="container">
-          <CardSwiper gridClass="md:grid-cols-2 lg:grid-cols-3">
+          <CardSwiper gridClass="md:grid-cols-2 lg:grid-cols-3" maxAngle={14}>
             {courses.map((c, i) => (
               <Reveal key={c.slug} delay={(i % 3) * 0.06}>
                 <div

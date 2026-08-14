@@ -13,6 +13,7 @@ import {
 import PageHero from "@/components/layout/PageHero";
 import SectionHeading from "@/components/shared/SectionHeading";
 import Reveal from "@/components/shared/Reveal";
+import CardSwiper from "@/components/shared/CardSwiper";
 import CopyEmailTemplate from "@/components/forms/CopyEmailTemplate";
 import CTASection from "@/components/home/CTASection";
 import { buildMetadata } from "@/lib/seo";
@@ -58,7 +59,7 @@ export default function BrokerAssistancePage() {
       <section className="section">
         <div className="container">
           <SectionHeading eyebrow="Why Open Through Us" title={<>What you get as a partner-account holder</>} center />
-          <div className="grid md:grid-cols-3 gap-6 mb-6">
+          <CardSwiper gridClass="md:grid-cols-3" maxAngle={18}>
             {perks.map((p, i) => (
               <Reveal key={p.title} delay={i * 0.08}>
                 <div className="glass-card p-7 h-full">
@@ -70,7 +71,7 @@ export default function BrokerAssistancePage() {
                 </div>
               </Reveal>
             ))}
-          </div>
+          </CardSwiper>
 
           <Reveal>
             <div className="flex flex-wrap items-center gap-4 rounded-xl2 border border-gold-500/25 bg-gold-500/[0.06] p-6 max-w-3xl mx-auto">

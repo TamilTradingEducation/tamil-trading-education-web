@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Star, Quote } from "lucide-react";
 import SectionHeading from "@/components/shared/SectionHeading";
 import Reveal from "@/components/shared/Reveal";
+import CardSwiper from "@/components/shared/CardSwiper";
 import { testimonials } from "@/lib/data";
 
 export default function TestimonialsSection() {
@@ -17,7 +18,7 @@ export default function TestimonialsSection() {
           }
           center
         />
-        <div className="grid md:grid-cols-3 gap-6">
+        <CardSwiper gridClass="md:grid-cols-3" maxAngle={20}>
           {testimonials.slice(0, 3).map((t, i) => (
             <Reveal key={t.name} delay={i * 0.08}>
               <div className="glass-card p-7 h-full flex flex-col">
@@ -40,7 +41,7 @@ export default function TestimonialsSection() {
               </div>
             </Reveal>
           ))}
-        </div>
+        </CardSwiper>
         <div className="text-center mt-12">
           <Link href="/testimonials" className="btn-outline">Read More Stories</Link>
         </div>

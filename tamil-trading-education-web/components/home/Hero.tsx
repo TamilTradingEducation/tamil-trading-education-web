@@ -205,7 +205,7 @@ export default function Hero() {
   return (
     <section
       ref={ref}
-      className="relative min-h-[92vh] flex items-center overflow-hidden"
+      className="relative min-h-0 sm:min-h-[92vh] flex items-center overflow-hidden"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -225,15 +225,15 @@ export default function Hero() {
       <div className="absolute -z-10 top-20 right-[8%] w-96 h-96 rounded-full bg-gold-500/20 blur-[130px]" />
       <div className="absolute -z-10 bottom-0 left-[5%] w-80 h-80 rounded-full bg-electric-500/20 blur-[120px]" />
 
-      <div className="container relative py-28 md:py-32">
+      <div className="container relative py-10 sm:py-16 md:py-28 lg:py-32">
         <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-14 items-center">
-          <div style={{ perspective: 1400 }} className="min-h-[380px] sm:min-h-[340px] lg:min-h-[420px]">
+          <div style={{ perspective: 900 }} className="min-h-[420px] sm:min-h-[340px] lg:min-h-[420px]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={active}
-                initial={{ opacity: 0, rotateY: 35, x: 40 }}
+                initial={{ opacity: 0, rotateY: 55, x: 60 }}
                 animate={{ opacity: 1, rotateY: 0, x: 0 }}
-                exit={{ opacity: 0, rotateY: -35, x: -40 }}
+                exit={{ opacity: 0, rotateY: -55, x: -60 }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 style={{ transformStyle: "preserve-3d" }}
               >
@@ -245,29 +245,27 @@ export default function Hero() {
 
                 <div className="flex flex-wrap gap-4 mb-12">{slide.buttons}</div>
 
-                {slide.showStats && (
-                  <div className="flex flex-wrap gap-x-10 gap-y-5">
-                    {stats.slice(0, 3).map((s) => (
-                      <div key={s.label}>
-                        <div className="font-mono text-3xl font-bold text-gold-700">
-                          <AnimatedCounter value={s.value} suffix={s.suffix} />
-                        </div>
-                        <div className="text-xs uppercase tracking-wider text-ink/45 mt-1">{s.label}</div>
+                <div className={`flex flex-wrap gap-x-10 gap-y-5 ${slide.showStats ? "" : "invisible pointer-events-none"}`} aria-hidden={!slide.showStats}>
+                  {stats.slice(0, 3).map((s) => (
+                    <div key={s.label}>
+                      <div className="font-mono text-3xl font-bold text-gold-700">
+                        {slide.showStats ? <AnimatedCounter value={s.value} suffix={s.suffix} /> : s.value}
                       </div>
-                    ))}
-                  </div>
-                )}
+                      <div className="text-xs uppercase tracking-wider text-ink/45 mt-1">{s.label}</div>
+                    </div>
+                  ))}
+                </div>
               </motion.div>
             </AnimatePresence>
           </div>
 
-          <div className="relative hidden lg:block min-h-[420px]" style={{ perspective: 1400 }}>
+          <div className="relative hidden lg:block min-h-[420px]" style={{ perspective: 900 }}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={active}
-                initial={{ opacity: 0, rotateY: -30, scale: 0.94 }}
+                initial={{ opacity: 0, rotateY: -50, scale: 0.9 }}
                 animate={{ opacity: 1, rotateY: 0, scale: 1 }}
-                exit={{ opacity: 0, rotateY: 30, scale: 0.96 }}
+                exit={{ opacity: 0, rotateY: 50, scale: 0.92 }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 style={{ transformStyle: "preserve-3d" }}
               >
@@ -299,11 +297,11 @@ export default function Hero() {
               key={i}
               onClick={() => setActive(i)}
               aria-label={`Go to slide ${i + 1}`}
-              className="p-3 -m-1 flex items-center justify-center touch-manipulation"
+              className="p-4 flex items-center justify-center touch-manipulation"
             >
               <span
-                className={`block h-2 rounded-full transition-all duration-300 ${
-                  i === active ? "w-9 bg-gold-500" : "w-2 bg-ink/25"
+                className={`block h-2.5 rounded-full transition-all duration-300 ${
+                  i === active ? "w-10 bg-gold-500" : "w-2.5 bg-ink/25"
                 }`}
               />
             </button>

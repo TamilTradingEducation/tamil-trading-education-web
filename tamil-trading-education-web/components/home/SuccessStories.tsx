@@ -1,6 +1,7 @@
 import Image from "next/image";
 import SectionHeading from "@/components/shared/SectionHeading";
 import Reveal from "@/components/shared/Reveal";
+import CardSwiper from "@/components/shared/CardSwiper";
 import { images } from "@/lib/images";
 
 const stories = [
@@ -40,7 +41,7 @@ export default function SuccessStories() {
           }
           center
         />
-        <div className="grid md:grid-cols-3 gap-6">
+        <CardSwiper gridClass="md:grid-cols-3" maxAngle={16}>
           {stories.map((s, i) => (
             <Reveal key={s.name} delay={i * 0.08}>
               <div className="glass-card overflow-hidden h-full flex flex-col">
@@ -56,7 +57,7 @@ export default function SuccessStories() {
               </div>
             </Reveal>
           ))}
-        </div>
+        </CardSwiper>
       </div>
     </section>
   );

@@ -6,9 +6,7 @@ import LiveMarketSection from "@/components/home/LiveMarketSection";
 import StatsSection from "@/components/home/StatsSection";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import ServicesGrid from "@/components/home/ServicesGrid";
-import MarketUpdatesSection from "@/components/home/MarketUpdatesSection";
 import SuccessStories from "@/components/home/SuccessStories";
-import CourseHighlights from "@/components/home/CourseHighlights";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import CTASection from "@/components/home/CTASection";
 import { buildMetadata } from "@/lib/seo";
@@ -30,9 +28,7 @@ export default function HomePage() {
       <StatsSection />
       <WhyChooseUs />
       <ServicesGrid />
-      <MarketUpdatesSection />
       <SuccessStories />
-      <CourseHighlights />
       <TestimonialsSection />
       <CTASection />
     </>
