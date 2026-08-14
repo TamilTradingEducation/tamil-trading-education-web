@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { CheckCircle2, AlertTriangle } from "lucide-react";
 import PageHero from "@/components/layout/PageHero";
 import Reveal from "@/components/shared/Reveal";
-import CardSwiper from "@/components/shared/CardSwiper";
 import EnrollmentForm from "@/components/forms/EnrollmentForm";
 import { buildMetadata, courseSchema } from "@/lib/seo";
 import { images } from "@/lib/images";
@@ -34,7 +33,7 @@ export default function CoursesPage() {
 
       <section className="section">
         <div className="container">
-          <CardSwiper gridClass="md:grid-cols-2 lg:grid-cols-3" maxAngle={14}>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-14">
             {courses.map((c, i) => (
               <Reveal key={c.slug} delay={(i % 3) * 0.06}>
                 <div
@@ -65,7 +64,7 @@ export default function CoursesPage() {
                 </div>
               </Reveal>
             ))}
-          </CardSwiper>
+          </div>
 
           <Reveal>
             <div className="flex gap-4 rounded-xl2 border border-red-400/25 bg-red-500/[0.06] p-5 max-w-4xl mx-auto">

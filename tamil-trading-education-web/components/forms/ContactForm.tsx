@@ -22,9 +22,7 @@ export default function ContactForm() {
     }).catch(() => {});
 
     const message = [
-      "Hello Tamil Trading Education team,",
-      "",
-      "I'd like to get in touch via your website:",
+      "New website inquiry — Tamil Trading Education",
       `Name: ${data.name}`,
       `Phone: ${data.phone}`,
       `Email: ${data.email}`,

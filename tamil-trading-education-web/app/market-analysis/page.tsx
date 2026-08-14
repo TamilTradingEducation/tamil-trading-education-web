@@ -3,7 +3,6 @@ import { AlertTriangle } from "lucide-react";
 import PageHero from "@/components/layout/PageHero";
 import SectionHeading from "@/components/shared/SectionHeading";
 import Reveal from "@/components/shared/Reveal";
-import AuthorIdeasFeed from "@/components/market/AuthorIdeasFeed";
 import AdvancedChart from "@/components/market/AdvancedChart";
 import MarketOverview from "@/components/market/MarketOverview";
 import EconomicCalendar from "@/components/market/EconomicCalendar";
@@ -36,24 +35,13 @@ export default function MarketAnalysisPage() {
           <SectionHeading eyebrow="Live Chart" title={<>Advanced Real-Time Chart</>} />
           <Reveal>
             <div className="glass-card p-2 md:p-3">
-              <AdvancedChart symbol="OANDA:XAUUSD" height={620} />
+              <AdvancedChart symbol="OANDA:XAUUSD" height={780} />
             </div>
           </Reveal>
         </div>
       </section>
 
       <section className="section bg-navy-800/20">
-        <div className="container">
-          <SectionHeading eyebrow="Our Chart Ideas" title={<>Straight From Our TradingView Profile</>} description="Published directly from our TradingView profile — updates the moment we post a new one." />
-          <Reveal>
-            <div className="glass-card p-2 md:p-3">
-              <AuthorIdeasFeed height={600} />
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="section">
         <div className="container grid lg:grid-cols-2 gap-6">
           <div>
             <SectionHeading eyebrow="Market Overview" title={<>Forex, Commodities, Crypto & Indices</>} />

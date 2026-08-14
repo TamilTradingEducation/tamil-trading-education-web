@@ -13,7 +13,6 @@ import {
 import PageHero from "@/components/layout/PageHero";
 import SectionHeading from "@/components/shared/SectionHeading";
 import Reveal from "@/components/shared/Reveal";
-import CardSwiper from "@/components/shared/CardSwiper";
 import CopyEmailTemplate from "@/components/forms/CopyEmailTemplate";
 import CTASection from "@/components/home/CTASection";
 import { buildMetadata } from "@/lib/seo";
@@ -59,7 +58,7 @@ export default function BrokerAssistancePage() {
       <section className="section">
         <div className="container">
           <SectionHeading eyebrow="Why Open Through Us" title={<>What you get as a partner-account holder</>} center />
-          <CardSwiper gridClass="md:grid-cols-3" maxAngle={18}>
+          <div className="grid md:grid-cols-3 gap-6 mb-6">
             {perks.map((p, i) => (
               <Reveal key={p.title} delay={i * 0.08}>
                 <div className="glass-card p-7 h-full">
@@ -71,7 +70,7 @@ export default function BrokerAssistancePage() {
                 </div>
               </Reveal>
             ))}
-          </CardSwiper>
+          </div>
 
           <Reveal>
             <div className="flex flex-wrap items-center gap-4 rounded-xl2 border border-gold-500/25 bg-gold-500/[0.06] p-6 max-w-3xl mx-auto">
@@ -120,7 +119,7 @@ export default function BrokerAssistancePage() {
           <div className="grid lg:grid-cols-3 gap-6">
             {/* Vantage */}
             <Reveal>
-              <div className="glass-card p-5 sm:p-7 h-full flex flex-col overflow-hidden">
+              <div className="glass-card p-7 h-full flex flex-col">
                 <span className="tag-pill w-fit mb-4">{vantagePartner.name}</span>
                 <h3 className="font-heading font-semibold text-xl mb-4">Vantage</h3>
                 <a href={vantagePartner.accountLink} target="_blank" rel="noopener noreferrer" className="btn-gold w-full mb-4">
@@ -130,7 +129,7 @@ export default function BrokerAssistancePage() {
                   <p className="text-xs uppercase tracking-wide text-ink/50 mb-1.5">
                     Referral Code <span className="text-gold-700 font-bold">— Mandatory</span>
                   </p>
-                  <p className="font-mono text-2xl sm:text-3xl font-extrabold text-gold-700 tracking-wide break-all">{vantagePartner.referralCode}</p>
+                  <p className="font-mono text-3xl font-extrabold text-gold-700 tracking-wide">{vantagePartner.referralCode}</p>
                   <p className="text-xs text-ink/50 mt-2 leading-relaxed">
                     Auto-applied via the link above. <strong className="text-ink/70">You must use this code</strong> to receive free VIP community access and a dedicated relationship manager.
                   </p>
@@ -151,7 +150,7 @@ export default function BrokerAssistancePage() {
 
             {/* OctaFX */}
             <Reveal delay={0.08}>
-              <div className="glass-card p-5 sm:p-7 h-full flex flex-col overflow-hidden">
+              <div className="glass-card p-7 h-full flex flex-col">
                 <span className="tag-pill w-fit mb-4">{octafxPartner.name}</span>
                 <h3 className="font-heading font-semibold text-xl mb-4">OctaFX</h3>
                 <a href={octafxPartner.accountLink} target="_blank" rel="noopener noreferrer" className="btn-gold w-full mb-4">
@@ -161,7 +160,7 @@ export default function BrokerAssistancePage() {
                   <p className="text-xs uppercase tracking-wide text-ink/50 mb-1.5">
                     Referral Code <span className="text-gold-700 font-bold">— Mandatory</span>
                   </p>
-                  <p className="font-mono text-2xl sm:text-3xl font-extrabold text-gold-700 tracking-wide break-all">{octafxPartner.referralCode}</p>
+                  <p className="font-mono text-3xl font-extrabold text-gold-700 tracking-wide">{octafxPartner.referralCode}</p>
                   <p className="text-xs text-ink/50 mt-2 leading-relaxed">
                     Auto-applied via the link above. <strong className="text-ink/70">You must use this code</strong> to receive free VIP community access and a dedicated relationship manager.
                   </p>
@@ -184,7 +183,7 @@ export default function BrokerAssistancePage() {
 
             {/* XM */}
             <Reveal delay={0.16}>
-              <div className="glass-card p-5 sm:p-7 h-full flex flex-col overflow-hidden">
+              <div className="glass-card p-7 h-full flex flex-col">
                 <span className="tag-pill w-fit mb-4">{xmPartner.name}</span>
                 <h3 className="font-heading font-semibold text-xl mb-4">XM</h3>
                 <p className="text-ink/55 text-sm mb-6 flex-grow">{xmPartner.note}</p>

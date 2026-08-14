@@ -47,16 +47,6 @@ body {
   border-radius: 999px;
 }
 
-@layer utilities {
-  .scrollbar-none {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  .scrollbar-none::-webkit-scrollbar {
-    display: none;
-  }
-}
-
 @layer components {
   .glass-card {
     @apply bg-white/85 border border-navy-500/25 backdrop-blur-xl rounded-xl2 shadow-soft;
@@ -92,6 +82,13 @@ body {
 
   .section {
     @apply py-20 md:py-28;
+  }
+
+  /* Was referenced by 5 sections (USDTRates, CTASection, market-analysis,
+     contact, broker-assistance) but never defined — those sections were
+     silently losing their fallback padding. Fixed here. */
+  .section-tight {
+    @apply py-16 md:py-20;
   }
 
   .tag-pill {

@@ -1,7 +1,6 @@
 import { GraduationCap, Radio, Users, HeartHandshake, BookOpenCheck, LifeBuoy } from "lucide-react";
 import SectionHeading from "@/components/shared/SectionHeading";
-import Reveal from "@/components/shared/Reveal";
-import CardSwiper from "@/components/shared/CardSwiper";
+import Tilt3D from "@/components/shared/Tilt3D";
 
 const reasons = [
   {
@@ -36,6 +35,11 @@ const reasons = [
   },
 ];
 
+/**
+ * 3D treatment: "tilt & glow" — each card pops upright as it scrolls into
+ * view (works on mobile too, no hover needed) and additionally tilts toward
+ * the cursor with a gold glow on desktop. See Tilt3D for the mechanics.
+ */
 export default function WhyChooseUs() {
   return (
     <section className="section">
@@ -49,19 +53,19 @@ export default function WhyChooseUs() {
           }
           center
         />
-        <CardSwiper gridClass="sm:grid-cols-2 lg:grid-cols-3" maxAngle={18}>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {reasons.map((r, i) => (
-            <Reveal key={r.title} delay={i * 0.06}>
-              <div className="glass-card p-7 h-full hover:border-gold-500/40 hover:-translate-y-1.5 transition-all duration-300">
+            <Tilt3D key={r.title} delay={i * 0.07}>
+              <div className="glass-card p-7 h-full border border-navy-500/25 hover:border-gold-500/40 transition-colors duration-300">
                 <div className="w-12 h-12 rounded-xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-700 mb-5">
                   <r.icon className="w-6 h-6" />
                 </div>
                 <h3 className="font-heading font-semibold text-lg mb-2">{r.title}</h3>
                 <p className="text-ink/55 text-sm leading-relaxed">{r.description}</p>
               </div>
-            </Reveal>
+            </Tilt3D>
           ))}
-        </CardSwiper>
+        </div>
       </div>
     </section>
   );

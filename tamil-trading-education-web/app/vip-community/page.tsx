@@ -4,7 +4,6 @@ import { MessageCircle, Send, Users, Radio, LineChart, ShieldCheck, CheckCircle2
 import PageHero from "@/components/layout/PageHero";
 import SectionHeading from "@/components/shared/SectionHeading";
 import Reveal from "@/components/shared/Reveal";
-import CardSwiper from "@/components/shared/CardSwiper";
 import CTASection from "@/components/home/CTASection";
 import { buildMetadata } from "@/lib/seo";
 import { images } from "@/lib/images";
@@ -47,7 +46,7 @@ export default function VipCommunityPage() {
       <section className="section">
         <div className="container">
           <SectionHeading eyebrow="What You Get" title={<>Built for traders who want more than a group chat</>} center />
-          <CardSwiper gridClass="sm:grid-cols-2 lg:grid-cols-4" maxAngle={24}>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {perks.map((p, i) => (
               <Reveal key={p.title} delay={i * 0.07}>
                 <div className="glass-card p-7 h-full">
@@ -59,7 +58,7 @@ export default function VipCommunityPage() {
                 </div>
               </Reveal>
             ))}
-          </CardSwiper>
+          </div>
         </div>
       </section>
 

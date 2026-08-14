@@ -21,9 +21,6 @@ export const site = {
   phoneRaw: "+918610066102",
   email: "",
   whatsapp: "https://wa.me/918610066102",
-  // TODO: replace with the real number for course enrollment leads only.
-  // Every other WhatsApp button/link on the site still uses `whatsapp` above.
-  whatsappEnrollment: "https://wa.me/917010498358",
   telegram: "https://t.me/tamilforexnanbargal",
   telegramDirect: "https://t.me/kripsonp97",
   instagram: "https://www.instagram.com/tamiltradingeducationofficial",

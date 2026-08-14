@@ -30,15 +30,15 @@ function ChartVisual() {
           <span className="w-1.5 h-1.5 rounded-full bg-up animate-pulseDot" /> +0.44%
         </span>
       </div>
-      <div className="flex items-end gap-2 h-40" style={{ transformStyle: "preserve-3d" }}>
+      <div className="flex items-end gap-2 h-32 sm:h-40" style={{ transformStyle: "preserve-3d" }}>
         {[40, 30, 60, 80, 100, 55, 120, 150, 80, 110, 170, 96, 140].map((h, i) => (
           <motion.div
             key={i}
             initial={{ height: 0 }}
-            animate={{ height: h }}
+            animate={{ height: h * 0.8 }}
             transition={{ delay: 0.15 + i * 0.04, duration: 0.5, ease: "easeOut" }}
             style={{ z: 10 + (i % 4) * 8 }}
-            className={`w-3 rounded-sm ${i % 3 === 1 ? "bg-down" : "bg-up"}`}
+            className={`w-2.5 sm:w-3 rounded-sm ${i % 3 === 1 ? "bg-down" : "bg-up"}`}
           />
         ))}
       </div>
@@ -49,7 +49,7 @@ function ChartVisual() {
 function PartnersVisual() {
   const partners = ["Vantage", "OctaFX", "XM"];
   return (
-    <TiltCard className="p-7">
+    <TiltCard className="p-6 sm:p-7">
       <div className="flex items-center gap-2 mb-6 text-gold-700">
         <BadgeCheck className="w-5 h-5" />
         <span className="font-heading font-semibold text-sm">Official IB Partner</span>
@@ -85,7 +85,7 @@ function AccountStepsVisual() {
     { icon: BadgeCheck, text: "Get free VIP community access" },
   ];
   return (
-    <TiltCard className="p-7">
+    <TiltCard className="p-6 sm:p-7">
       <p className="font-heading font-semibold text-sm text-ink mb-6">Open Your Account in 3 Steps</p>
       <div className="space-y-4">
         {steps.map((s, i) => (
@@ -191,21 +191,28 @@ export default function Hero() {
 
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [direction, setDirection] = useState(1);
 
   useEffect(() => {
     if (paused) return;
     const timer = setInterval(() => {
+      setDirection(1);
       setActive((i) => (i + 1) % slides.length);
     }, SLIDE_DURATION);
     return () => clearInterval(timer);
   }, [paused]);
+
+  function goTo(i: number) {
+    setDirection(i > active ? 1 : -1);
+    setActive(i);
+  }
 
   const slide = slides[active];
 
   return (
     <section
       ref={ref}
-      className="relative min-h-0 sm:min-h-[92vh] flex items-center overflow-hidden"
+      className="relative min-h-[88vh] sm:min-h-[92vh] flex items-center overflow-hidden"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -222,36 +229,46 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-r from-navy-950 via-navy-950/40 to-transparent" />
       </motion.div>
 
-      <div className="absolute -z-10 top-20 right-[8%] w-96 h-96 rounded-full bg-gold-500/20 blur-[130px]" />
-      <div className="absolute -z-10 bottom-0 left-[5%] w-80 h-80 rounded-full bg-electric-500/20 blur-[120px]" />
+      <div className="absolute -z-10 top-20 right-[8%] w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-gold-500/20 blur-[110px] sm:blur-[130px]" />
+      <div className="absolute -z-10 bottom-0 left-[5%] w-64 h-64 sm:w-80 sm:h-80 rounded-full bg-electric-500/20 blur-[100px] sm:blur-[120px]" />
 
-      <div className="container relative py-10 sm:py-16 md:py-28 lg:py-32">
-        <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-14 items-center">
-          <div style={{ perspective: 900 }} className="min-h-[420px] sm:min-h-[340px] lg:min-h-[420px]">
-            <AnimatePresence mode="wait">
+      <div className="container relative py-20 sm:py-28 md:py-32">
+        <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-10 lg:gap-14 items-center">
+          <div style={{ perspective: 1400 }}>
+            <AnimatePresence mode="wait" custom={direction}>
               <motion.div
                 key={active}
-                initial={{ opacity: 0, rotateY: 55, x: 60 }}
-                animate={{ opacity: 1, rotateY: 0, x: 0 }}
-                exit={{ opacity: 0, rotateY: -55, x: -60 }}
-                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                custom={direction}
+                initial={{ opacity: 0, rotateY: 28 * direction, y: 18 }}
+                animate={{ opacity: 1, rotateY: 0, y: 0 }}
+                exit={{ opacity: 0, rotateY: -28 * direction, y: -12 }}
+                transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
                 style={{ transformStyle: "preserve-3d" }}
               >
                 <span className="eyebrow">{slide.eyebrow}</span>
-                <h1 className="text-4xl sm:text-5xl lg:text-[3.6rem] font-heading font-bold leading-[1.05] mb-6">
+                <h1 className="text-[2.1rem] leading-[1.1] sm:text-5xl lg:text-[3.6rem] font-heading font-bold sm:leading-[1.05] mb-5 sm:mb-6">
                   {slide.title}
                 </h1>
-                <p className="text-lg text-ink/65 max-w-xl mb-9 leading-relaxed">{slide.description}</p>
+                <p className="text-base sm:text-lg text-ink/65 max-w-xl mb-7 sm:mb-9 leading-relaxed">
+                  {slide.description}
+                </p>
 
-                <div className="flex flex-wrap gap-4 mb-12">{slide.buttons}</div>
+                <div className="flex flex-wrap gap-3 sm:gap-4 mb-9 sm:mb-12">{slide.buttons}</div>
 
-                <div className={`flex flex-wrap gap-x-10 gap-y-5 ${slide.showStats ? "" : "invisible pointer-events-none"}`} aria-hidden={!slide.showStats}>
+                <div
+                  className={`flex flex-wrap gap-x-8 sm:gap-x-10 gap-y-5 ${
+                    slide.showStats ? "" : "invisible pointer-events-none select-none"
+                  }`}
+                  aria-hidden={!slide.showStats}
+                >
                   {stats.slice(0, 3).map((s) => (
                     <div key={s.label}>
-                      <div className="font-mono text-3xl font-bold text-gold-700">
-                        {slide.showStats ? <AnimatedCounter value={s.value} suffix={s.suffix} /> : s.value}
+                      <div className="font-mono text-2xl sm:text-3xl font-bold text-gold-700">
+                        <AnimatedCounter value={s.value} suffix={s.suffix} />
                       </div>
-                      <div className="text-xs uppercase tracking-wider text-ink/45 mt-1">{s.label}</div>
+                      <div className="text-[11px] sm:text-xs uppercase tracking-wider text-ink/45 mt-1">
+                        {s.label}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -259,14 +276,15 @@ export default function Hero() {
             </AnimatePresence>
           </div>
 
-          <div className="relative hidden lg:block min-h-[420px]" style={{ perspective: 900 }}>
-            <AnimatePresence mode="wait">
+          <div className="relative mx-auto w-full max-w-sm lg:max-w-none" style={{ perspective: 1400 }}>
+            <AnimatePresence mode="wait" custom={direction}>
               <motion.div
                 key={active}
-                initial={{ opacity: 0, rotateY: -50, scale: 0.9 }}
+                custom={direction}
+                initial={{ opacity: 0, rotateY: -22 * direction, scale: 0.94 }}
                 animate={{ opacity: 1, rotateY: 0, scale: 1 }}
-                exit={{ opacity: 0, rotateY: 50, scale: 0.92 }}
-                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                exit={{ opacity: 0, rotateY: 22 * direction, scale: 0.96 }}
+                transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
                 style={{ transformStyle: "preserve-3d" }}
               >
                 {slide.visual}
@@ -276,7 +294,7 @@ export default function Hero() {
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -top-5 -right-5 glass-card px-4 py-3 flex items-center gap-2 text-xs font-heading"
+              className="hidden sm:flex absolute -top-5 -right-5 glass-card px-4 py-3 items-center gap-2 text-xs font-heading"
             >
               <span className="w-2 h-2 rounded-full bg-up animate-pulseDot" /> Mentor Online Now
             </motion.div>
@@ -284,27 +302,23 @@ export default function Hero() {
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-              className="absolute -bottom-5 -left-6 glass-card px-4 py-3 flex items-center gap-2 text-xs font-heading"
+              className="hidden sm:flex absolute -bottom-5 -left-6 glass-card px-4 py-3 items-center gap-2 text-xs font-heading"
             >
               <Star className="w-4 h-4 text-gold-600 fill-gold-600" /> Rated 4.9/5 by 1,000+ students
             </motion.div>
           </div>
         </div>
 
-        <div className="flex items-center gap-1 mt-10">
+        <div className="flex items-center gap-2.5 mt-8 sm:mt-10">
           {slides.map((_, i) => (
             <button
               key={i}
-              onClick={() => setActive(i)}
+              onClick={() => goTo(i)}
               aria-label={`Go to slide ${i + 1}`}
-              className="p-4 flex items-center justify-center touch-manipulation"
-            >
-              <span
-                className={`block h-2.5 rounded-full transition-all duration-300 ${
-                  i === active ? "w-10 bg-gold-500" : "w-2.5 bg-ink/25"
-                }`}
-              />
-            </button>
+              className={`h-2 sm:h-1.5 rounded-full transition-all duration-300 ${
+                i === active ? "w-9 sm:w-8 bg-gold-500" : "w-2 sm:w-1.5 bg-ink/20 hover:bg-ink/35"
+              }`}
+            />
           ))}
         </div>
       </div>
