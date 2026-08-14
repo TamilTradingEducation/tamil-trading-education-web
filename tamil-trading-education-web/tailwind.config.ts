@@ -10,8 +10,25 @@ const config: Config = {
   theme: {
     container: {
       center: true,
-      padding: "1.25rem",
-      screens: { "2xl": "1280px" },
+      padding: { DEFAULT: "1.25rem", sm: "1.5rem", xl: "2rem" },
+      // Scales up on very large/ultrawide displays instead of capping at
+      // 1280px — a 32" or curved monitor now actually uses its width.
+      screens: {
+        sm: "640px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1280px",
+        "2xl": "1440px",
+        "3xl": "1720px",
+      },
+    },
+    screens: {
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1536px",
+      "3xl": "1920px",
     },
     extend: {
       colors: {

@@ -142,12 +142,15 @@ export default function Header() {
           </Link>
         </div>
 
+        {/* Explicit text-white: the icon previously inherited the page's dark
+            ink colour, making it near-invisible on the dark header bar. */}
         <button
-          className="2xl:hidden w-10 h-10 flex items-center justify-center rounded-lg border border-white/15 shrink-0"
+          className="2xl:hidden w-11 h-11 flex items-center justify-center rounded-lg border border-white/25 bg-white/10 text-white shrink-0 active:scale-95 transition-transform duration-100"
           onClick={() => setOpen(!open)}
           aria-label="Toggle menu"
+          aria-expanded={open}
         >
-          {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          {open ? <X className="w-6 h-6 text-white" /> : <Menu className="w-6 h-6 text-white" />}
         </button>
       </div>
 
@@ -157,7 +160,7 @@ export default function Header() {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.16, ease: "easeOut" }}
             className="2xl:hidden overflow-hidden border-t border-white/10 bg-frame-950"
           >
             <div className="mx-auto w-full max-w-[1680px] px-4 sm:px-6 flex flex-col gap-1 py-6">

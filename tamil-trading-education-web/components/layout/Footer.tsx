@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Phone, Mail, MapPin } from "lucide-react";
 import { Instagram, Youtube, LineChart, Twitter, MessageCircle, Send } from "lucide-react";
 import { site, footerLinks } from "@/lib/data";
+import FooterReveal from "@/components/shared/FooterReveal";
 
 const socials = [
   { href: site.whatsapp, icon: MessageCircle, label: "WhatsApp" },
@@ -15,7 +16,8 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-frame-950 pt-20 pb-8">
+    <footer className="border-t border-white/10 bg-frame-950 pt-16 sm:pt-20 pb-8">
+      <FooterReveal>
       <div className="container">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 pb-14">
           <div>
@@ -110,6 +112,7 @@ export default function Footer() {
           <span>Educational content only. Trading involves risk.</span>
         </div>
       </div>
+      </FooterReveal>
     </footer>
   );
 }
