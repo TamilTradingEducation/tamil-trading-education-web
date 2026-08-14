@@ -8,6 +8,7 @@ import WhyChooseUs from "@/components/home/WhyChooseUs";
 import ServicesGrid from "@/components/home/ServicesGrid";
 import SuccessStories from "@/components/home/SuccessStories";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
+import MarketPulseWall from "@/components/home/MarketPulseWall";
 import CTASection from "@/components/home/CTASection";
 import { buildMetadata } from "@/lib/seo";
 
@@ -30,6 +31,17 @@ export default function HomePage() {
       <ServicesGrid />
       <SuccessStories />
       <TestimonialsSection />
+      <section className="section-tight py-16">
+        <div className="container">
+          <div className="text-center mb-10">
+            <span className="eyebrow justify-center">Feel the Market</span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold">
+              Every candle tells a <span className="gold-text">story</span>
+            </h2>
+          </div>
+          <MarketPulseWall />
+        </div>
+      </section>
       <CTASection />
     </>
   );

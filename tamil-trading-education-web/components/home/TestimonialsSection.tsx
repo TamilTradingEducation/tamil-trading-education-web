@@ -1,97 +1,100 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Star, Quote, ArrowRight } from "lucide-react";
-import SectionHeading from "@/components/shared/SectionHeading";
-import { testimonials } from "@/lib/data";
+import { Star, MessageCircle } from "lucide-react";
+import { stats, testimonials, site } from "@/lib/data";
+import AnimatedCounter from "@/components/shared/AnimatedCounter";
+import Reveal from "@/components/shared/Reveal";
 
-const deck = testimonials.slice(0, 5);
+// Only the first 4 stack — enough for the sticky effect to read clearly
+// without turning into an excessively long scroll section on mobile.
+const stackedTestimonials = testimonials.slice(0, 4);
 
 /**
- * 3D treatment: "card deck" — testimonials sit in a physical stack with the
- * two behind peeking out, offset and rotated in true 3D (rotateZ + a slight
- * rotateX/translateZ so the stack itself reads as depth, not just 2D
- * layering). Tapping "Next" sends the front card to the back of the deck.
- * A fifth distinct 3D language, and fully tap-driven so it works identically
- * on mobile and desktop.
+ * 3D treatment: "sticky stack" — replaces the previous tap-driven card deck.
+ * Each testimonial is pinned in place with CSS `position: sticky` at a
+ * slightly deeper offset than the one before it, so as you scroll past this
+ * section the cards physically stack up on screen like a deck of photos
+ * being laid down one on top of another. This uses native scroll behaviour
+ * (no JavaScript animation loop), so it's smooth on every device including
+ * low-end phones.
  */
 export default function TestimonialsSection() {
-  const [order, setOrder] = useState(deck.map((_, i) => i));
-
-  function next() {
-    setOrder((o) => [...o.slice(1), o[0]]);
-  }
-
   return (
     <section className="section">
       <div className="container">
-        <SectionHeading
-          eyebrow="Testimonials"
-          title={
-            <>
-              What our <span className="gold-text">traders say</span>
-            </>
-          }
-          center
-        />
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+          {/* Left column — stays in view while the stack scrolls past on the right */}
+          <div className="flex flex-col gap-6 lg:sticky lg:top-28">
+            <Reveal>
+              <span className="eyebrow">Testimonials</span>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold leading-tight mb-4">
+                What our <span className="gold-text">traders say</span>
+              </h2>
+              <p className="text-ink/60 text-lg mb-2">
+                Real students, real progress — scroll to see their stories stack up.
+              </p>
+            </Reveal>
 
-        <div style={{ perspective: 1300 }} className="relative max-w-xl mx-auto">
-          <div className="relative h-[340px] sm:h-[300px]">
-            <AnimatePresence initial={false}>
-              {order.slice(0, 3).map((idx, pos) => {
-                const t = deck[idx];
-                return (
-                  <motion.div
-                    key={idx}
-                    initial={pos === 0 ? { opacity: 0, scale: 0.9 } : false}
-                    animate={{
-                      x: pos * 14,
-                      y: pos * -10,
-                      rotate: pos * 3.5,
-                      scale: 1 - pos * 0.05,
-                      opacity: 1 - pos * 0.18,
-                      zIndex: 10 - pos,
-                    }}
-                    exit={{ opacity: 0, x: -40, rotate: -8, transition: { duration: 0.3 } }}
-                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                    style={{ transformStyle: "preserve-3d" }}
-                    className="absolute inset-0"
+            <Reveal delay={0.1}>
+              <div className="grid grid-cols-3 gap-3 sm:gap-4 mt-2">
+                {stats.slice(0, 3).map((s) => (
+                  <div key={s.label} className="glass-card text-center rounded-xl px-2 py-4">
+                    <p className="font-mono text-xl sm:text-2xl font-bold text-gold-700">
+                      <AnimatedCounter value={s.value} suffix={s.suffix} />
+                    </p>
+                    <p className="text-[10px] sm:text-xs text-ink/50 mt-1 leading-tight">{s.label}</p>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.15}>
+              <div className="flex flex-wrap items-center gap-4 mt-4">
+                <Link href="/testimonials" className="btn-outline">
+                  Read More Stories
+                </Link>
+                <a href={site.whatsapp} target="_blank" rel="noopener noreferrer" className="btn-gold">
+                  <MessageCircle className="w-4 h-4" /> Talk to a Mentor
+                </a>
+              </div>
+            </Reveal>
+          </div>
+
+          {/* Right column — the sticky stack itself */}
+          <div className="relative" style={{ height: `${stackedTestimonials.length * 100 + 60}vh` }}>
+            <div className="sticky top-24 space-y-0">
+              {stackedTestimonials.map((t, i) => (
+                <div
+                  key={t.name}
+                  className="sticky"
+                  style={{ top: `${112 + i * 26}px` }}
+                >
+                  <div
+                    className="glass-card p-6 sm:p-7 border border-navy-500/25"
+                    style={{ transform: `rotate(${i % 2 === 0 ? -0.6 : 0.6}deg)` }}
                   >
-                    <div className="glass-card p-7 h-full flex flex-col">
-                      <Quote className="w-8 h-8 text-gold-500/60 mb-3" />
-                      <div className="flex gap-0.5 mb-3">
-                        {Array.from({ length: t.rating }).map((_, i) => (
-                          <Star key={i} className="w-4 h-4 fill-gold-400 text-gold-400" />
-                        ))}
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-gold-gradient flex items-center justify-center font-heading font-bold text-ink shrink-0">
+                        {t.name.charAt(0)}
                       </div>
-                      <p className="text-ink/65 text-sm leading-relaxed flex-grow mb-6">&quot;{t.quote}&quot;</p>
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-gold-gradient flex items-center justify-center font-heading font-bold text-ink shrink-0">
-                          {t.name.charAt(0)}
-                        </div>
-                        <div>
-                          <p className="font-heading text-sm font-semibold">{t.name}</p>
-                          <p className="text-xs text-ink/45">{t.course} · {t.location}</p>
-                        </div>
+                      <div className="flex-grow min-w-0">
+                        <p className="font-heading font-semibold text-ink truncate">{t.name}</p>
+                        <p className="text-xs text-ink/45 truncate">{t.course} · {t.location}</p>
+                      </div>
+                      <div className="flex items-center gap-1 shrink-0">
+                        <span className="font-mono text-sm font-semibold text-ink">{t.rating.toFixed(1)}</span>
+                        <Star className="w-3.5 h-3.5 fill-gold-400 text-gold-400" />
                       </div>
                     </div>
-                  </motion.div>
-                );
-              })}
-            </AnimatePresence>
+                    <p className="text-ink/65 text-sm sm:text-base leading-relaxed mt-4">
+                      &quot;{t.quote}&quot;
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-
-          <div className="flex justify-center mt-8">
-            <button onClick={next} className="btn-outline">
-              Next Story <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-
-        <div className="text-center mt-12">
-          <Link href="/testimonials" className="btn-outline">Read More Stories</Link>
         </div>
       </div>
     </section>
