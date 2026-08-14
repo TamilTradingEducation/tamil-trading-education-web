@@ -2,7 +2,8 @@
 
 import { MessageCircle, Send, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { motion, useMotionValue, useSpring, useTransform, PointerEvent } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { PointerEvent } from "react";
 import Reveal from "@/components/shared/Reveal";
 import { site } from "@/lib/data";
 
