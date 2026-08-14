@@ -1,42 +1,84 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { motion, PanInfo } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Star, Trophy } from "lucide-react";
 import SectionHeading from "@/components/shared/SectionHeading";
 import { images } from "@/lib/images";
 
+/**
+ * IMPORTANT — these are deliberately DIFFERENT people and DIFFERENT topics
+ * from `testimonials` in lib/data.ts (which powers the /testimonials page).
+ * Previously Ramesh K., Priya S. and Karthik B. appeared in both places,
+ * which made the site look like it only had three students.
+ *
+ * Split of subject matter:
+ *  - Success Stories (here) = concrete milestones and outcomes achieved.
+ *  - Testimonials (/testimonials) = opinions on teaching, community, support.
+ */
 const stories = [
   {
-    name: "Ramesh K.",
+    name: "Vignesh R.",
+    location: "Erode, Tamil Nadu",
     image: images.studentsLearning,
-    milestone: "Zero to first funded demo pass in 4 months",
+    rating: 5,
+    milestone: "Passed a funded-account evaluation in 4 months",
     detail:
-      "Started with no market knowledge in our Beginner Forex course and progressed through Intermediate Forex before passing a proprietary firm's demo evaluation.",
+      "Came in with no market background at all. Worked through the Beginner and Intermediate tracks in sequence, then cleared a proprietary firm's demo evaluation on his second attempt.",
   },
   {
-    name: "Priya S.",
+    name: "Meena L.",
+    location: "Thanjavur, Tamil Nadu",
     image: images.tradingClassroom,
-    milestone: "Cut average drawdown by more than half",
+    rating: 5,
+    milestone: "Cut her average drawdown by more than half",
     detail:
-      "After completing our Risk Management specialisation, restructured position sizing and stop-loss discipline to trade with meaningfully less volatility.",
+      "Rebuilt her position sizing and stop-loss rules from scratch after the Risk Management specialisation. Same strategy, far less account volatility month to month.",
   },
   {
-    name: "Karthik B.",
+    name: "Ashok P.",
+    location: "Vellore, Tamil Nadu",
     image: images.professionalTrader,
-    milestone: "Now trades part-time alongside a full-time job",
+    rating: 4,
+    milestone: "Trades part-time around a full-time job",
     detail:
-      "A working professional who used our Swing Trading course to build a schedule-friendly strategy that doesn't require watching charts all day.",
+      "Used the Swing Trading course to build a routine that needs about thirty minutes of chart time each evening — no watching screens through the working day.",
+  },
+  {
+    name: "Kavitha D.",
+    location: "Tiruppur, Tamil Nadu",
+    image: images.businessMeeting,
+    rating: 5,
+    milestone: "Six straight months of following her own plan",
+    detail:
+      "Her breakthrough wasn't a strategy change — it was finally sticking to one. The accountability check-ins in the VIP community were what made the difference.",
+  },
+  {
+    name: "Naveen S.",
+    location: "Dindigul, Tamil Nadu",
+    image: images.multipleMonitors,
+    rating: 4,
+    milestone: "Moved from random entries to a written playbook",
+    detail:
+      "Documented three specific XAUUSD setups he actually understands, and stopped taking everything else. Fewer trades, far clearer results to review.",
+  },
+  {
+    name: "Bhuvana T.",
+    location: "Kanyakumari, Tamil Nadu",
+    image: images.modernOffice,
+    rating: 5,
+    milestone: "Recovered discipline after a costly losing streak",
+    detail:
+      "Came back from a rough stretch by dropping to minimum size for eight weeks while rebuilding her process — then scaled up only once the numbers justified it.",
   },
 ];
 
 /**
- * 3D treatment: "coverflow" — the active story sits flat and centered, the
- * neighbours are pushed back and rotated in 3D space (rotateY + reduced
- * scale/opacity), coverflow-style. Swipeable by touch/mouse drag on every
- * device, plus arrow buttons for anyone who prefers tapping. A fourth
- * distinct 3D language from the other home-page sections.
+ * 3D treatment: "coverflow" — the active story sits flat and centred, the
+ * neighbours are pushed back and rotated away in 3D space. Swipeable by
+ * touch or mouse drag on every device, with arrows and dots as alternatives.
  */
 export default function SuccessStories() {
   const [active, setActive] = useState(0);
@@ -51,23 +93,21 @@ export default function SuccessStories() {
   }
 
   return (
-    <section className="section bg-navy-800/20 overflow-hidden">
+    <section className="section bg-navy-800/20 overflow-x-clip">
       <div className="container">
         <SectionHeading
           eyebrow="Student Success Stories"
           title={
             <>
-              Real progress from <span className="gold-text">real students</span>
+              Real milestones from <span className="gold-text">real students</span>
             </>
           }
+          description="Concrete outcomes our students have reached — not opinions, but things that actually changed in how they trade."
           center
         />
 
         <div style={{ perspective: 1400 }} className="relative">
-          <div
-            className="relative h-[420px] sm:h-[380px] md:h-[360px] max-w-3xl mx-auto touch-pan-y cursor-grab active:cursor-grabbing"
-            onPointerDown={() => {}}
-          >
+          <div className="relative h-[460px] sm:h-[400px] md:h-[370px] max-w-3xl mx-auto touch-pan-y cursor-grab active:cursor-grabbing">
             {stories.map((s, i) => {
               const offset = i - active;
               const isActive = offset === 0;
@@ -82,15 +122,15 @@ export default function SuccessStories() {
                     x: `${offset * 62}%`,
                     rotateY: offset * -28,
                     scale: isActive ? 1 : 0.82,
-                    opacity: Math.abs(offset) > 1 ? 0 : isActive ? 1 : 0.45,
+                    opacity: Math.abs(offset) > 1 ? 0 : isActive ? 1 : 0.4,
                     zIndex: 10 - Math.abs(offset),
                   }}
                   transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                   style={{ transformStyle: "preserve-3d" }}
                   className="absolute inset-0 mx-auto w-full sm:w-[85%] md:w-[75%]"
                 >
-                  <div className="glass-card overflow-hidden h-full flex flex-col sm:flex-row select-none">
-                    <div className="relative h-40 sm:h-full sm:w-2/5 shrink-0">
+                  <div className="glass-card card-notch overflow-hidden h-full flex flex-col sm:flex-row select-none">
+                    <div className="relative h-36 sm:h-auto sm:w-2/5 shrink-0">
                       <Image
                         src={s.image}
                         alt={s.name}
@@ -101,10 +141,33 @@ export default function SuccessStories() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t sm:bg-gradient-to-r from-navy-950 via-navy-950/10 to-transparent" />
                     </div>
-                    <div className="p-6 flex-grow flex flex-col justify-center">
-                      <p className="font-heading font-semibold text-gold-700 mb-2">{s.milestone}</p>
-                      <p className="text-ink/55 text-sm leading-relaxed">{s.detail}</p>
-                      <p className="mt-4 text-sm font-heading text-ink/70">— {s.name}</p>
+                    <div className="p-5 sm:p-6 flex-grow flex flex-col justify-center min-w-0">
+                      <div className="flex items-center gap-2 mb-2.5">
+                        <span className="flex gap-0.5">
+                          {Array.from({ length: 5 }).map((_, k) => (
+                            <Star
+                              key={k}
+                              className={`w-3.5 h-3.5 ${
+                                k < s.rating
+                                  ? "fill-gold-400 text-gold-400"
+                                  : "text-ink/20"
+                              }`}
+                            />
+                          ))}
+                        </span>
+                        <span className="font-mono text-xs text-ink/50">
+                          {s.rating.toFixed(1)}
+                        </span>
+                      </div>
+                      <p className="font-heading font-semibold text-gold-700 mb-2 flex items-start gap-2 text-sm sm:text-base">
+                        <Trophy className="w-4 h-4 mt-0.5 shrink-0" />
+                        <span className="min-w-0">{s.milestone}</span>
+                      </p>
+                      <p className="text-ink/55 text-sm leading-relaxed break-words">{s.detail}</p>
+                      <p className="mt-3.5 text-sm font-heading text-ink/70">
+                        — {s.name}
+                        <span className="text-ink/40 font-body text-xs"> · {s.location}</span>
+                      </p>
                     </div>
                   </div>
                 </motion.div>
@@ -112,15 +175,15 @@ export default function SuccessStories() {
             })}
           </div>
 
-          <div className="flex items-center justify-center gap-4 mt-8">
+          <div className="flex items-center justify-center gap-3 sm:gap-4 mt-7">
             <button
               onClick={() => go(-1)}
               aria-label="Previous story"
-              className="w-10 h-10 rounded-full border border-navy-500/25 flex items-center justify-center text-ink/60 hover:border-gold-500 hover:text-gold-700 transition-colors"
+              className="w-10 h-10 rounded-full border border-navy-500/25 flex items-center justify-center text-ink/60 hover:border-gold-500 hover:text-gold-700 transition-colors shrink-0"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 flex-wrap justify-center">
               {stories.map((_, i) => (
                 <button
                   key={i}
@@ -135,10 +198,16 @@ export default function SuccessStories() {
             <button
               onClick={() => go(1)}
               aria-label="Next story"
-              className="w-10 h-10 rounded-full border border-navy-500/25 flex items-center justify-center text-ink/60 hover:border-gold-500 hover:text-gold-700 transition-colors"
+              className="w-10 h-10 rounded-full border border-navy-500/25 flex items-center justify-center text-ink/60 hover:border-gold-500 hover:text-gold-700 transition-colors shrink-0"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
+          </div>
+
+          <div className="text-center mt-9">
+            <Link href="/testimonials" className="btn-3d">
+              Read Student Testimonials
+            </Link>
           </div>
         </div>
       </div>

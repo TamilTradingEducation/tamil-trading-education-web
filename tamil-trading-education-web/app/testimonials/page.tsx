@@ -30,12 +30,20 @@ export default function TestimonialsPage() {
         <div className="container grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {testimonials.map((t, i) => (
             <Reveal key={t.name} delay={(i % 3) * 0.07}>
-              <div className="glass-card p-7 h-full flex flex-col">
+              <div className="glass-card card-notch p-7 h-full flex flex-col">
                 <Quote className="w-8 h-8 text-gold-500/60 mb-3" />
-                <div className="flex gap-0.5 mb-3">
-                  {Array.from({ length: t.rating }).map((_, idx) => (
-                    <Star key={idx} className="w-4 h-4 fill-gold-400 text-gold-400" />
-                  ))}
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="flex gap-0.5">
+                    {Array.from({ length: 5 }).map((_, idx) => (
+                      <Star
+                        key={idx}
+                        className={`w-4 h-4 ${
+                          idx < t.rating ? "fill-gold-400 text-gold-400" : "text-ink/20"
+                        }`}
+                      />
+                    ))}
+                  </span>
+                  <span className="font-mono text-xs text-ink/50">{t.rating.toFixed(1)}</span>
                 </div>
                 <p className="text-ink/65 text-sm leading-relaxed flex-grow mb-6">&quot;{t.quote}&quot;</p>
                 <div className="flex items-center gap-3">

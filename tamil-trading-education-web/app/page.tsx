@@ -7,7 +7,6 @@ import StatsSection from "@/components/home/StatsSection";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import ServicesGrid from "@/components/home/ServicesGrid";
 import SuccessStories from "@/components/home/SuccessStories";
-import TestimonialsSection from "@/components/home/TestimonialsSection";
 import CTASection from "@/components/home/CTASection";
 import { buildMetadata } from "@/lib/seo";
 
@@ -29,7 +28,6 @@ export default function HomePage() {
       <WhyChooseUs />
       <ServicesGrid />
       <SuccessStories />
-      <TestimonialsSection />
       <CTASection />
     </>
   );

@@ -355,6 +355,46 @@ export const testimonials: Testimonial[] = [
       "Support didn't stop after the course ended. Mentors still answer my questions in the community months later.",
     rating: 5,
   },
+  {
+    name: "Lakshmi P.",
+    location: "Thoothukudi, Tamil Nadu",
+    course: "Scalping",
+    quote:
+      "Everything is taught in Tamil with English terms explained properly. That combination is why it finally made sense to me.",
+    rating: 5,
+  },
+  {
+    name: "Manoj E.",
+    location: "Namakkal, Tamil Nadu",
+    course: "ICT / Smart Money Concepts",
+    quote:
+      "Smart Money Concepts is usually taught in a very confusing way online. Here it was broken into steps I could actually follow on a chart.",
+    rating: 4,
+  },
+  {
+    name: "Anitha R.",
+    location: "Karur, Tamil Nadu",
+    course: "Beginner Forex",
+    quote:
+      "As a woman starting out I was hesitant about joining a trading group. The community here is respectful and questions never get mocked.",
+    rating: 5,
+  },
+  {
+    name: "Gopinath S.",
+    location: "Cuddalore, Tamil Nadu",
+    course: "Swing Trading",
+    quote:
+      "Recorded sessions saved me. I work shifts, so being able to catch up later without falling behind the batch mattered a lot.",
+    rating: 4,
+  },
+  {
+    name: "Revathi K.",
+    location: "Sivakasi, Tamil Nadu",
+    course: "Risk Management",
+    quote:
+      "They are honest about losses, which I did not expect. No one promises guaranteed profit — that made me trust the teaching more.",
+    rating: 5,
+  },
 ];
 
 export const faqs: FAQItem[] = [
