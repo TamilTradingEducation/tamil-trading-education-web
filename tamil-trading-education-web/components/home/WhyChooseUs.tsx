@@ -2,7 +2,7 @@
 
 import { GraduationCap, Radio, Users, HeartHandshake, BookOpenCheck, LifeBuoy } from "lucide-react";
 import SectionHeading from "@/components/shared/SectionHeading";
-import Carousel3D from "@/components/shared/Carousel3D";
+import ResponsiveCards from "@/components/shared/ResponsiveCards";
 import CandlestickField from "@/components/shared/CandlestickField";
 
 const reasons = [
@@ -45,9 +45,10 @@ const reasons = [
 ];
 
 /**
- * Section identity: 3D COVERFLOW carousel (see Carousel3D `coverflow`).
- * Neighbour cards fan out and rotate away on the Y axis. Replaces the old
- * 6-box vertical grid, which was a major contributor to mobile scroll length.
+ * MOBILE  → 3D coverflow carousel (neighbours fan out and rotate away).
+ * DESKTOP  → clean centred 3-column grid, no carousel, no 3D rotation.
+ * Handled by ResponsiveCards, which branches in JS so desktop never mounts
+ * the carousel at all.
  */
 export default function WhyChooseUs() {
   const cards = reasons.map((r) => (
@@ -76,12 +77,13 @@ export default function WhyChooseUs() {
           }
           center
         />
-        <Carousel3D
+        <ResponsiveCards
           items={cards}
           variant="coverflow"
+          desktopCols={3}
           ariaLabel="Why choose us"
-          heightClass="h-[340px] sm:h-[320px]"
-          cardWidthClass="w-[86%] sm:w-[70%] md:w-[58%]"
+          carouselHeightClass="h-[330px]"
+          carouselCardWidthClass="w-[86%] sm:w-[64%]"
         />
       </div>
     </section>

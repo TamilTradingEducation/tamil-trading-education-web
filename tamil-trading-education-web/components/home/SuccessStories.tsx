@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Star, Trophy } from "lucide-react";
 import SectionHeading from "@/components/shared/SectionHeading";
-import Carousel3D from "@/components/shared/Carousel3D";
+import ResponsiveCards from "@/components/shared/ResponsiveCards";
 import { images } from "@/lib/images";
 
 /**
@@ -137,12 +137,13 @@ export default function SuccessStories() {
           center
         />
 
-        <Carousel3D
+        <ResponsiveCards
           items={cards}
           variant="panel"
+          desktopCols={3}
           ariaLabel="Student success stories"
-          heightClass="h-[440px] sm:h-[380px] md:h-[350px]"
-          cardWidthClass="w-[90%] sm:w-[82%] md:w-[72%]"
+          carouselHeightClass="h-[430px] sm:h-[380px]"
+          carouselCardWidthClass="w-[88%] sm:w-[74%]"
         />
 
         <div className="text-center mt-9">

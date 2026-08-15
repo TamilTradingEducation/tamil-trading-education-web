@@ -53,6 +53,43 @@ body {
   border-radius: 999px;
 }
 
+@layer base {
+  /*
+    GLOBAL OVERFLOW GUARANTEE — declared once here rather than as
+    `overflow-x-clip` sprinkled across every page and section.
+
+    `clip` (not `hidden`) is deliberate: `hidden` turns every section into a
+    scroll container, which breaks `position: sticky` children and can hijack
+    touch scrolling on iOS Safari. `clip` contains overflow without creating a
+    scroll container, so sticky elements keep working while nothing can spill
+    sideways.
+  */
+  section {
+    overflow-x: clip;
+  }
+
+  /* Media can never exceed its parent. */
+  img,
+  svg,
+  video,
+  canvas,
+  iframe {
+    max-width: 100%;
+  }
+
+  /* Long unbroken strings (referral codes, emails, URLs) can force a
+     container wider than the phone screen — stopped at the source. */
+  p,
+  li,
+  h1,
+  h2,
+  h3,
+  h4,
+  td {
+    overflow-wrap: break-word;
+  }
+}
+
 @layer components {
   .glass-card {
     @apply bg-white/85 border border-navy-500/25 backdrop-blur-xl rounded-xl2 shadow-soft;

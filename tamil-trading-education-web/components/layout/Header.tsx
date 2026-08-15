@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -20,6 +21,9 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const moreRef = useRef<HTMLDivElement>(null);
+  // Portals need the DOM, which doesn't exist during server rendering.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -159,7 +163,11 @@ export default function Header() {
             ink colour, making it near-invisible on the dark header bar. */}
         <button
           className="2xl:hidden w-11 h-11 flex items-center justify-center rounded-lg border border-white/25 bg-white/10 text-white shrink-0 active:scale-95 transition-transform duration-100"
-          onClick={() => setOpen(!open)}
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            setOpen((v) => !v);
+          }}
           aria-label="Toggle menu"
           aria-expanded={open}
           aria-controls="mobile-nav"
@@ -169,61 +177,85 @@ export default function Header() {
       </div>
 
       {/*
-        Mobile navigation is a FIXED OVERLAY DRAWER, not an in-flow panel.
+        ROOT CAUSE FIX — the drawer is now PORTALLED to document.body.
 
-        Previously the menu animated its own height inside the sticky header,
-        which grew the header and pushed the whole page down — that reflow is
-        what reset scroll position, restarted hero/carousel entrance
-        animations, and made 3D sections appear to "flatten" on reopen.
-        Because this drawer is `position: fixed` and outside the document
-        flow, opening or closing it cannot move, remount, or re-render any
-        page content. Page state is preserved exactly.
+        It previously lived inside <header>, which carries `backdrop-blur-xl`.
+        A backdrop-filter (like filter, transform and will-change) on an
+        ancestor creates a CONTAINING BLOCK for position:fixed descendants.
+        That meant `fixed top-20 right-0 bottom-0` resolved against the 80px
+        header box instead of the viewport, so the drawer rendered as an
+        invisible sliver — the menu state was toggling correctly all along,
+        there was simply nothing visible to see.
+
+        Rendering through a portal takes the drawer out of the header's
+        subtree entirely, so no ancestor filter can affect it. It also stays
+        outside the document flow, so opening it cannot move, remount, or
+        re-render page content — scroll position, hero animation, carousel
+        index and 3D state are all preserved.
       */}
-      <AnimatePresence>
-        {open && (
-          <>
-            <motion.button
-              key="scrim"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
-              onClick={() => setOpen(false)}
-              aria-label="Close menu"
-              className="2xl:hidden fixed inset-0 top-20 z-40 bg-ink/50 backdrop-blur-[2px]"
-            />
-            <motion.nav
-              key="drawer"
-              id="mobile-nav"
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", stiffness: 420, damping: 38, mass: 0.7 }}
-              style={{ willChange: "transform" }}
-              className="2xl:hidden fixed top-20 right-0 bottom-0 z-50 w-[82vw] max-w-xs bg-frame-950 border-l border-white/10 shadow-soft overflow-y-auto overscroll-contain"
-            >
-              <div className="flex flex-col gap-1 px-5 py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setOpen(false)}
-                    className={`py-3 text-base font-heading font-medium border-b border-white/5 ${
-                      pathname === link.href ? "text-gold-300" : "text-white/80"
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-                <Link href="/contact" onClick={() => setOpen(false)} className="btn-gold w-full mt-5">
-                  <CalendarCheck className="w-4 h-4" />
-                  Book Free Consultation
-                </Link>
-              </div>
-            </motion.nav>
-          </>
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {open && (
+              <>
+                <motion.button
+                  key="scrim"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                  onClick={() => setOpen(false)}
+                  aria-label="Close menu"
+                  className="2xl:hidden fixed inset-0 z-[90] bg-ink/50 backdrop-blur-[2px]"
+                />
+                <motion.nav
+                  key="drawer"
+                  id="mobile-nav"
+                  initial={{ x: "100%" }}
+                  animate={{ x: 0 }}
+                  exit={{ x: "100%" }}
+                  transition={{ type: "spring", stiffness: 420, damping: 38, mass: 0.7 }}
+                  style={{ willChange: "transform" }}
+                  className="2xl:hidden fixed top-0 right-0 bottom-0 z-[100] w-[82vw] max-w-xs bg-frame-950 border-l border-white/10 shadow-soft overflow-y-auto overscroll-contain"
+                >
+                  <div className="flex items-center justify-between px-5 h-20 border-b border-white/10">
+                    <span className="font-heading font-semibold text-white text-sm">Menu</span>
+                    <button
+                      onClick={() => setOpen(false)}
+                      aria-label="Close menu"
+                      className="w-10 h-10 flex items-center justify-center rounded-lg border border-white/25 bg-white/10 text-white"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+                  <div className="flex flex-col gap-1 px-5 py-5 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
+                    {navLinks.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setOpen(false)}
+                        className={`py-3 text-base font-heading font-medium border-b border-white/5 ${
+                          pathname === link.href ? "text-gold-300" : "text-white/80"
+                        }`}
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                    <Link
+                      href="/contact"
+                      onClick={() => setOpen(false)}
+                      className="btn-gold w-full mt-5"
+                    >
+                      <CalendarCheck className="w-4 h-4" />
+                      Book Free Consultation
+                    </Link>
+                  </div>
+                </motion.nav>
+              </>
+            )}
+          </AnimatePresence>,
+          document.body
         )}
-      </AnimatePresence>
 
     </header>
   );

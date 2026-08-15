@@ -2,18 +2,15 @@
 
 import * as Icons from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import Carousel3D from "@/components/shared/Carousel3D";
-import Tilt3D from "@/components/shared/Tilt3D";
+import ResponsiveCards from "@/components/shared/ResponsiveCards";
 import { vipBenefits } from "@/lib/data";
 
 /**
  * VIP benefit modules.
  *
- * Mobile  → shared Carousel3D in `deck` mode (stacked 3D modules, swipeable).
- * Desktop → 3D tilt grid via the existing Tilt3D wrapper.
- *
- * Both paths render the same `BenefitCard`, so there's a single source of
- * truth for the visual design.
+ * MOBILE  → stacked 3D deck, swipeable.
+ * DESKTOP  → clean centred 4-column grid.
+ * Both render the same `BenefitCard`, so there's one source of truth.
  */
 function BenefitCard({
   icon,
@@ -40,24 +37,13 @@ export default function VipBenefits() {
   const cards = vipBenefits.map((b) => <BenefitCard key={b.title} {...b} />);
 
   return (
-    <>
-      <div className="lg:hidden">
-        <Carousel3D
-          items={cards}
-          variant="deck"
-          ariaLabel="VIP benefits"
-          heightClass="h-[300px]"
-          cardWidthClass="w-[84%] sm:w-[64%]"
-        />
-      </div>
-
-      <div className="hidden lg:grid grid-cols-2 xl:grid-cols-4 gap-6">
-        {vipBenefits.map((b, i) => (
-          <Tilt3D key={b.title} delay={i * 0.06} intensity={9} entryRotate={14}>
-            <BenefitCard {...b} />
-          </Tilt3D>
-        ))}
-      </div>
-    </>
+    <ResponsiveCards
+      items={cards}
+      variant="deck"
+      desktopCols={4}
+      ariaLabel="VIP benefits"
+      carouselHeightClass="h-[300px]"
+      carouselCardWidthClass="w-[84%] sm:w-[62%]"
+    />
   );
 }

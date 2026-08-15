@@ -1,19 +1,16 @@
 "use client";
 
 import { CheckCircle2 } from "lucide-react";
-import Carousel3D from "@/components/shared/Carousel3D";
+import ResponsiveCards from "@/components/shared/ResponsiveCards";
 import CandlestickField from "@/components/shared/CandlestickField";
 import type { Course } from "@/types";
 
 /**
- * Section identity: 3D PERSPECTIVE ROTATOR (see Carousel3D `rotate`).
- * Courses swing around a central pivot rather than fanning sideways, so the
- * Courses page reads differently from the home page sections.
- *
- * This replaces a 9-card vertical grid — on a phone that was roughly nine
- * screens of scrolling before reaching the enrollment form. All nine courses
- * and all their outcome bullets are still here; they're now browsed
- * horizontally instead of stacked.
+ * MOBILE  → 3D perspective rotator; courses swing around a central pivot.
+ *            Replaces a 9-card vertical grid that was ~9 screens of scrolling.
+ * DESKTOP  → clean centred 3-column grid, which is the right shape for
+ *            comparing courses side by side.
+ * No content removed either way — all nine courses, all outcome bullets.
  */
 export default function CourseCarousel({ courses }: { courses: Course[] }) {
   const cards = courses.map((c) => (
@@ -50,12 +47,13 @@ export default function CourseCarousel({ courses }: { courses: Course[] }) {
     <div className="relative mb-12">
       <CandlestickField count={8} maxOpacity={0.1} />
       <div className="relative">
-        <Carousel3D
+        <ResponsiveCards
           items={cards}
           variant="rotate"
+          desktopCols={3}
           ariaLabel="Forex courses"
-          heightClass="h-[500px] sm:h-[460px]"
-          cardWidthClass="w-[88%] sm:w-[70%] md:w-[56%]"
+          carouselHeightClass="h-[490px] sm:h-[450px]"
+          carouselCardWidthClass="w-[88%] sm:w-[68%]"
         />
       </div>
     </div>

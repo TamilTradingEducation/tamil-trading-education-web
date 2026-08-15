@@ -55,7 +55,6 @@ function transformFor(
       z: 0,
       scale: 1,
       opacity: abs === 0 ? 1 : 0,
-      zIndex: 10 - abs,
     };
   }
 
@@ -70,7 +69,6 @@ function transformFor(
         z: -Math.min(abs, 3) * 70,
         scale: 1 - Math.min(abs, 3) * 0.06,
         opacity: abs > 2 ? 0 : 1 - abs * 0.22,
-        zIndex: 10 - abs,
       };
     case "rotate":
       return {
@@ -82,7 +80,6 @@ function transformFor(
         z: -abs * 130,
         scale: abs === 0 ? 1 : 0.8,
         opacity: abs > 1 ? 0 : abs === 0 ? 1 : 0.5,
-        zIndex: 10 - abs,
       };
     case "panel":
       return {
@@ -94,7 +91,6 @@ function transformFor(
         z: -abs * 60,
         scale: abs === 0 ? 1 : 0.9,
         opacity: abs > 1 ? 0 : abs === 0 ? 1 : 0.55,
-        zIndex: 10 - abs,
       };
     case "coverflow":
     default:
@@ -107,7 +103,6 @@ function transformFor(
         z: -abs * 110,
         scale: abs === 0 ? 1 : 0.82,
         opacity: abs > 1 ? 0 : abs === 0 ? 1 : 0.42,
-        zIndex: 10 - abs,
       };
   }
 }
@@ -184,8 +179,28 @@ export default function Carousel3D({
               const isActive = offset === 0;
               const t = transformFor(variant, offset, reduced);
               return (
-                <motion.div
+                /*
+                  CENTERING FIX — positioning and animation are now separate
+                  elements.
+
+                  Previously the animated card itself carried Tailwind's
+                  `-translate-x-1/2` for centering. Framer Motion writes its
+                  own inline `transform`, which REPLACES Tailwind's transform
+                  utilities outright — so the centering was silently dropped
+                  the moment the card animated, leaving every card positioned
+                  from the 50% mark rightward. That was the site-wide "cards
+                  drifting off the right edge" bug.
+
+                  Now an unanimated wrapper handles centering with flexbox
+                  (no transform at all), and Framer only ever animates the
+                  inner element. The two can no longer collide.
+                */
+                <div
                   key={`${uid}-${i}`}
+                  className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                  style={{ zIndex: 10 - Math.abs(offset) }}
+                >
+                <motion.div
                   drag={isActive ? "x" : false}
                   dragDirectionLock
                   dragConstraints={{ left: 0, right: 0 }}
@@ -203,7 +218,7 @@ export default function Carousel3D({
                     pointerEvents: Math.abs(offset) > 1 ? "none" : "auto",
                   }}
                   aria-hidden={!isActive}
-                  className={`keep-3d absolute inset-y-0 left-1/2 -translate-x-1/2 ${cardWidthClass} touch-pan-y ${
+                  className={`keep-3d pointer-events-auto ${cardWidthClass} h-full touch-pan-y ${
                     isActive ? "cursor-grab active:cursor-grabbing" : "cursor-pointer"
                   }`}
                   onClick={() => {
@@ -212,6 +227,7 @@ export default function Carousel3D({
                 >
                   {item}
                 </motion.div>
+                </div>
               );
             })}
           </div>

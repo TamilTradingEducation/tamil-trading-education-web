@@ -4,14 +4,13 @@ import * as Icons from "lucide-react";
 import Link from "next/link";
 import { LucideIcon } from "lucide-react";
 import SectionHeading from "@/components/shared/SectionHeading";
-import Carousel3D from "@/components/shared/Carousel3D";
+import ResponsiveCards from "@/components/shared/ResponsiveCards";
 import { services } from "@/lib/data";
 
 /**
- * Section identity: 3D CARD DECK (see Carousel3D `deck`).
- * Cards sit in a physical front-to-back stack with a slight roll, so this
- * reads differently from the Why-Choose-Us coverflow directly above it,
- * while sharing the same underlying carousel engine.
+ * MOBILE  → 3D card deck (front-to-back stack with a roll) — deliberately a
+ *            different feel from the Why-Choose-Us coverflow above it.
+ * DESKTOP  → clean centred 4-column grid.
  */
 export default function ServicesGrid() {
   const cards = services.map((s) => {
@@ -43,12 +42,13 @@ export default function ServicesGrid() {
           description="From your first lesson to VIP-level mentorship — structured support at every stage."
           center
         />
-        <Carousel3D
+        <ResponsiveCards
           items={cards}
           variant="deck"
+          desktopCols={4}
           ariaLabel="Our services"
-          heightClass="h-[330px] sm:h-[310px]"
-          cardWidthClass="w-[84%] sm:w-[66%] md:w-[54%]"
+          carouselHeightClass="h-[320px]"
+          carouselCardWidthClass="w-[84%] sm:w-[62%]"
         />
         <div className="text-center mt-10">
           <Link href="/contact" className="btn-3d">Discuss Your Goals With Us</Link>

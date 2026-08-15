@@ -9,7 +9,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { Check, Crown, Sparkles } from "lucide-react";
-import Carousel3D from "@/components/shared/Carousel3D";
+import ResponsiveCards from "@/components/shared/ResponsiveCards";
 import { vipPlans, site } from "@/lib/data";
 
 type Plan = (typeof vipPlans)[number];
@@ -27,7 +27,7 @@ type Plan = (typeof vipPlans)[number];
  * entrance animation — the tilt is gated to `pointerType === "mouse"` so a
  * finger swipe never fights the carousel drag.
  */
-function PricingCard({ plan, compact = false }: { plan: Plan; compact?: boolean }) {
+function PricingCard({ plan }: { plan: Plan }) {
   const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion() ?? false;
   const mx = useMotionValue(0);
@@ -101,9 +101,7 @@ function PricingCard({ plan, compact = false }: { plan: Plan; compact?: boolean 
 
         {/* Layer 2 — the card face */}
         <div
-          className={`keep-3d relative h-full rounded-xl3 border backdrop-blur-xl flex flex-col overflow-hidden ${
-            compact ? "p-5" : "p-6 sm:p-7"
-          } ${
+          className={`keep-3d relative h-full rounded-xl3 border backdrop-blur-xl flex flex-col overflow-hidden p-5 sm:p-6 ${
             isLifetime
               ? "bg-gradient-to-br from-frame-800 via-frame-900 to-frame-950 border-gold-500/45"
               : isBest
@@ -119,9 +117,9 @@ function PricingCard({ plan, compact = false }: { plan: Plan; compact?: boolean 
 
           <div className="relative flex items-center justify-between gap-2 mb-4">
             <span
-              className={`font-heading font-semibold ${
+              className={`font-heading font-semibold text-base sm:text-lg ${
                 isLifetime ? "text-white" : "text-ink"
-              } ${compact ? "text-base" : "text-lg"}`}
+              }`}
             >
               {plan.label}
             </span>
@@ -142,17 +140,17 @@ function PricingCard({ plan, compact = false }: { plan: Plan; compact?: boolean 
             <div className="flex items-end gap-2 flex-wrap">
               {plan.listPrice && (
                 <span
-                  className={`font-mono line-through ${
+                  className={`font-mono line-through text-base sm:text-lg ${
                     isLifetime ? "text-white/40" : "text-ink/35"
-                  } ${compact ? "text-base" : "text-lg"}`}
+                  }`}
                 >
                   ${plan.listPrice}
                 </span>
               )}
               <span
-                className={`font-mono font-bold leading-none ${
+                className={`font-mono font-bold leading-none text-4xl ${
                   isLifetime ? "text-gold-300" : "gold-text"
-                } ${compact ? "text-4xl" : "text-4xl sm:text-5xl"}`}
+                }`}
               >
                 ${plan.price}
               </span>
@@ -211,42 +209,27 @@ function PricingCard({ plan, compact = false }: { plan: Plan; compact?: boolean 
 }
 
 /**
- * Desktop: a spacious 4-across 3D module grid.
- * Mobile: the shared Carousel3D in `coverflow` mode — swipe left/right, the
- * active plan sits forward while neighbours fall back in perspective.
- * One component, two layouts — no duplicated markup.
+ * MOBILE  → 3D coverflow pricing carousel. The active plan sits centred and
+ *           forward; neighbours fall back in perspective. Swipe left/right.
+ * DESKTOP  → clean, centred, equal-height 4-across pricing grid. No carousel,
+ *            no drag handlers, no continuous 3D animation — just the layered
+ *            card depth and a one-shot entrance.
+ *
+ * The recommended plan is lifted slightly on desktop via `emphasisIndex`.
  */
 export default function VipPricing() {
-  const cards = vipPlans.map((p) => <PricingCard key={p.id} plan={p} compact />);
+  const cards = vipPlans.map((p) => <PricingCard key={p.id} plan={p} />);
+  const bestIndex = vipPlans.findIndex((p) => p.recommended);
 
   return (
-    <>
-      {/* Mobile / tablet — 3D swipe carousel */}
-      <div className="lg:hidden">
-        <Carousel3D
-          items={cards}
-          variant="coverflow"
-          ariaLabel="VIP membership plans"
-          heightClass="h-[430px]"
-          cardWidthClass="w-[80%] sm:w-[58%]"
-        />
-      </div>
-
-      {/* Desktop — spacious 3D module grid */}
-      <div className="hidden lg:grid grid-cols-4 gap-6 items-stretch">
-        {vipPlans.map((p, i) => (
-          <motion.div
-            key={p.id}
-            initial={{ opacity: 0, y: 30, rotateX: 14 }}
-            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-            className={p.recommended ? "lg:-mt-4 lg:mb-4" : ""}
-          >
-            <PricingCard plan={p} />
-          </motion.div>
-        ))}
-      </div>
-    </>
+    <ResponsiveCards
+      items={cards}
+      variant="coverflow"
+      desktopCols={4}
+      ariaLabel="VIP membership plans"
+      carouselHeightClass="h-[440px]"
+      carouselCardWidthClass="w-[80%] sm:w-[58%]"
+      emphasisIndex={bestIndex >= 0 ? bestIndex : undefined}
+    />
   );
 }
