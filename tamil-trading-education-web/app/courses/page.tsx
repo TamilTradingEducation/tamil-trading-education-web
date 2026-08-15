@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { CheckCircle2, AlertTriangle } from "lucide-react";
 import PageHero from "@/components/layout/PageHero";
 import Reveal from "@/components/shared/Reveal";
+import CourseCarousel from "@/components/courses/CourseCarousel";
 import EnrollmentForm from "@/components/forms/EnrollmentForm";
 import { buildMetadata, courseSchema } from "@/lib/seo";
 import { images } from "@/lib/images";
@@ -33,38 +34,7 @@ export default function CoursesPage() {
 
       <section className="section">
         <div className="container">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-14">
-            {courses.map((c, i) => (
-              <Reveal key={c.slug} delay={(i % 3) * 0.06}>
-                <div
-                  className={`glass-card p-7 h-full flex flex-col ${
-                    c.featured ? "border-gold-500/50" : ""
-                  }`}
-                >
-                  <span className="tag-pill w-fit mb-4">
-                    {c.level}
-                    {c.featured ? " · Popular" : ""}
-                  </span>
-                  <h3 className="font-heading font-semibold text-xl mb-2">{c.title}</h3>
-                  <p className="text-ink/55 text-sm mb-5">{c.description}</p>
-                  <ul className="space-y-2.5 mb-2">
-                    {c.outcomes.map((o) => (
-                      <li key={o} className="flex gap-2.5 text-sm text-ink/60">
-                        <CheckCircle2 className="w-4 h-4 text-up shrink-0 mt-0.5" />
-                        {o}
-                      </li>
-                    ))}
-                  </ul>
-                  <a
-                    href="#enroll"
-                    className={c.featured ? "btn-gold w-full mt-6" : "btn-outline w-full mt-6"}
-                  >
-                    Enroll Now
-                  </a>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          <CourseCarousel courses={courses} />
 
           <Reveal>
             <div className="flex gap-4 rounded-xl2 border border-red-400/25 bg-red-500/[0.06] p-5 max-w-4xl mx-auto">

@@ -2,10 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { motion, PanInfo } from "framer-motion";
-import { ChevronLeft, ChevronRight, Star, Trophy } from "lucide-react";
+import { Star, Trophy } from "lucide-react";
 import SectionHeading from "@/components/shared/SectionHeading";
+import Carousel3D from "@/components/shared/Carousel3D";
 import { images } from "@/lib/images";
 
 /**
@@ -81,16 +80,48 @@ const stories = [
  * touch or mouse drag on every device, with arrows and dots as alternatives.
  */
 export default function SuccessStories() {
-  const [active, setActive] = useState(0);
-
-  function go(delta: number) {
-    setActive((i) => (i + delta + stories.length) % stories.length);
-  }
-
-  function onDragEnd(_: unknown, info: PanInfo) {
-    if (info.offset.x < -60) go(1);
-    else if (info.offset.x > 60) go(-1);
-  }
+  const cards = stories.map((s) => (
+    <div
+      key={s.name}
+      className="glass-card card-notch overflow-hidden h-full flex flex-col sm:flex-row select-none"
+    >
+      <div className="relative h-32 sm:h-auto sm:w-2/5 shrink-0">
+        <Image
+          src={s.image}
+          alt={s.name}
+          fill
+          draggable={false}
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, 33vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t sm:bg-gradient-to-r from-navy-950 via-navy-950/10 to-transparent" />
+      </div>
+      <div className="p-5 sm:p-6 flex-grow flex flex-col justify-center min-w-0">
+        <div className="flex items-center gap-2 mb-2.5">
+          <span className="flex gap-0.5">
+            {Array.from({ length: 5 }).map((_, k) => (
+              <Star
+                key={k}
+                className={`w-3.5 h-3.5 ${
+                  k < s.rating ? "fill-gold-400 text-gold-400" : "text-ink/20"
+                }`}
+              />
+            ))}
+          </span>
+          <span className="font-mono text-xs text-ink/50">{s.rating.toFixed(1)}</span>
+        </div>
+        <p className="font-heading font-semibold text-gold-700 mb-2 flex items-start gap-2 text-sm sm:text-base">
+          <Trophy className="w-4 h-4 mt-0.5 shrink-0" />
+          <span className="min-w-0">{s.milestone}</span>
+        </p>
+        <p className="text-ink/55 text-sm leading-relaxed break-words">{s.detail}</p>
+        <p className="mt-3 text-sm font-heading text-ink/70">
+          — {s.name}
+          <span className="text-ink/40 font-body text-xs"> · {s.location}</span>
+        </p>
+      </div>
+    </div>
+  ));
 
   return (
     <section className="section bg-navy-800/20 overflow-x-clip">
@@ -106,109 +137,18 @@ export default function SuccessStories() {
           center
         />
 
-        <div style={{ perspective: 1400 }} className="relative">
-          <div className="relative h-[460px] sm:h-[400px] md:h-[370px] max-w-3xl mx-auto touch-pan-y cursor-grab active:cursor-grabbing">
-            {stories.map((s, i) => {
-              const offset = i - active;
-              const isActive = offset === 0;
-              return (
-                <motion.div
-                  key={s.name}
-                  drag={isActive ? "x" : false}
-                  dragConstraints={{ left: 0, right: 0 }}
-                  dragElastic={0.6}
-                  onDragEnd={onDragEnd}
-                  animate={{
-                    x: `${offset * 62}%`,
-                    rotateY: offset * -28,
-                    scale: isActive ? 1 : 0.82,
-                    opacity: Math.abs(offset) > 1 ? 0 : isActive ? 1 : 0.4,
-                    zIndex: 10 - Math.abs(offset),
-                  }}
-                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                  style={{ transformStyle: "preserve-3d" }}
-                  className="absolute inset-0 mx-auto w-full sm:w-[85%] md:w-[75%]"
-                >
-                  <div className="glass-card card-notch overflow-hidden h-full flex flex-col sm:flex-row select-none">
-                    <div className="relative h-36 sm:h-auto sm:w-2/5 shrink-0">
-                      <Image
-                        src={s.image}
-                        alt={s.name}
-                        fill
-                        draggable={false}
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t sm:bg-gradient-to-r from-navy-950 via-navy-950/10 to-transparent" />
-                    </div>
-                    <div className="p-5 sm:p-6 flex-grow flex flex-col justify-center min-w-0">
-                      <div className="flex items-center gap-2 mb-2.5">
-                        <span className="flex gap-0.5">
-                          {Array.from({ length: 5 }).map((_, k) => (
-                            <Star
-                              key={k}
-                              className={`w-3.5 h-3.5 ${
-                                k < s.rating
-                                  ? "fill-gold-400 text-gold-400"
-                                  : "text-ink/20"
-                              }`}
-                            />
-                          ))}
-                        </span>
-                        <span className="font-mono text-xs text-ink/50">
-                          {s.rating.toFixed(1)}
-                        </span>
-                      </div>
-                      <p className="font-heading font-semibold text-gold-700 mb-2 flex items-start gap-2 text-sm sm:text-base">
-                        <Trophy className="w-4 h-4 mt-0.5 shrink-0" />
-                        <span className="min-w-0">{s.milestone}</span>
-                      </p>
-                      <p className="text-ink/55 text-sm leading-relaxed break-words">{s.detail}</p>
-                      <p className="mt-3.5 text-sm font-heading text-ink/70">
-                        — {s.name}
-                        <span className="text-ink/40 font-body text-xs"> · {s.location}</span>
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
+        <Carousel3D
+          items={cards}
+          variant="panel"
+          ariaLabel="Student success stories"
+          heightClass="h-[440px] sm:h-[380px] md:h-[350px]"
+          cardWidthClass="w-[90%] sm:w-[82%] md:w-[72%]"
+        />
 
-          <div className="flex items-center justify-center gap-3 sm:gap-4 mt-7">
-            <button
-              onClick={() => go(-1)}
-              aria-label="Previous story"
-              className="w-10 h-10 rounded-full border border-navy-500/25 flex items-center justify-center text-ink/60 hover:border-gold-500 hover:text-gold-700 transition-colors shrink-0"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <div className="flex items-center gap-1.5 flex-wrap justify-center">
-              {stories.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActive(i)}
-                  aria-label={`Go to story ${i + 1}`}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    i === active ? "w-7 bg-gold-500" : "w-2 bg-ink/20 hover:bg-ink/35"
-                  }`}
-                />
-              ))}
-            </div>
-            <button
-              onClick={() => go(1)}
-              aria-label="Next story"
-              className="w-10 h-10 rounded-full border border-navy-500/25 flex items-center justify-center text-ink/60 hover:border-gold-500 hover:text-gold-700 transition-colors shrink-0"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
-
-          <div className="text-center mt-9">
-            <Link href="/testimonials" className="btn-3d">
-              Read Student Testimonials
-            </Link>
-          </div>
+        <div className="text-center mt-9">
+          <Link href="/testimonials" className="btn-3d">
+            Read Student Testimonials
+          </Link>
         </div>
       </div>
     </section>

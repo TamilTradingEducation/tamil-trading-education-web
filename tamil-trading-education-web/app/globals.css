@@ -5,11 +5,17 @@
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
+  /* iOS Safari: prevents text auto-inflating in rotated/3D containers, which
+     was one cause of cards appearing to change size mid-animation. */
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   @apply bg-navy-950 text-ink font-body antialiased;
   overflow-x: hidden;
+  /* Respect the iPhone notch / home indicator so fixed elements aren't
+     hidden behind Safari's bottom toolbar. */
+  padding-bottom: env(safe-area-inset-bottom);
   background:
     radial-gradient(1200px 600px at 85% -10%, rgba(201, 162, 75, 0.10), transparent 60%),
     radial-gradient(1000px 600px at -10% 15%, rgba(0, 71, 171, 0.08), transparent 60%),
@@ -127,6 +133,17 @@ body {
      silently losing their fallback padding. Fixed here. */
   .section-tight {
     @apply py-16 md:py-20;
+  }
+
+  /* Applied to any element that must keep its 3D context. Without an explicit
+     preserve-3d, some mobile browsers flatten nested transforms once a parent
+     gets its own compositing layer — that is what made 3D cards "become 2D"
+     partway through an interaction. */
+  .keep-3d {
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
   }
 
   .tag-pill {

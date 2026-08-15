@@ -13,7 +13,7 @@ import AnimatedCounter from "@/components/shared/AnimatedCounter";
 export default function StatsSection() {
   return (
     <section className="border-y border-ink/10 bg-navy-800/30 py-14">
-      <div className="container grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+      <div className="container grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 md:gap-8">
         {stats.map((s, i) => (
           <div key={s.label} style={{ perspective: 900 }}>
             <motion.div
@@ -22,7 +22,7 @@ export default function StatsSection() {
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
               style={{ transformStyle: "preserve-3d" }}
-              className="relative text-center"
+              className="relative text-center min-w-0"
             >
               <div
                 aria-hidden
@@ -41,7 +41,7 @@ export default function StatsSection() {
                 <div className="font-mono text-2xl sm:text-3xl md:text-4xl font-bold text-gold-700">
                   <AnimatedCounter value={s.value} suffix={s.suffix} />
                 </div>
-                <div className="text-[11px] sm:text-sm uppercase tracking-wider text-ink/45 mt-2">
+                <div className="text-[10px] sm:text-sm uppercase tracking-wider text-ink/45 mt-2 break-words">
                   {s.label}
                 </div>
               </div>

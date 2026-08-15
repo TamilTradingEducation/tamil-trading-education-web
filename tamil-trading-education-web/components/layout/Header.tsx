@@ -32,6 +32,19 @@ export default function Header() {
     setMoreOpen(false);
   }, [pathname]);
 
+  // Prevent the page behind the drawer from scrolling, while leaving the
+  // scroll POSITION untouched so closing the menu returns you exactly where
+  // you were. (Setting overflow only — not `position: fixed` on body, which
+  // is the trick that jumps you back to the top.)
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
+
   useEffect(() => {
     const onClickOutside = (e: MouseEvent) => {
       if (moreRef.current && !moreRef.current.contains(e.target as Node)) setMoreOpen(false);
@@ -149,40 +162,69 @@ export default function Header() {
           onClick={() => setOpen(!open)}
           aria-label="Toggle menu"
           aria-expanded={open}
+          aria-controls="mobile-nav"
         >
           {open ? <X className="w-6 h-6 text-white" /> : <Menu className="w-6 h-6 text-white" />}
         </button>
       </div>
 
+      {/*
+        Mobile navigation is a FIXED OVERLAY DRAWER, not an in-flow panel.
+
+        Previously the menu animated its own height inside the sticky header,
+        which grew the header and pushed the whole page down — that reflow is
+        what reset scroll position, restarted hero/carousel entrance
+        animations, and made 3D sections appear to "flatten" on reopen.
+        Because this drawer is `position: fixed` and outside the document
+        flow, opening or closing it cannot move, remount, or re-render any
+        page content. Page state is preserved exactly.
+      */}
       <AnimatePresence>
         {open && (
-          <motion.nav
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.16, ease: "easeOut" }}
-            className="2xl:hidden overflow-hidden border-t border-white/10 bg-frame-950"
-          >
-            <div className="mx-auto w-full max-w-[1680px] px-4 sm:px-6 flex flex-col gap-1 py-6">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`py-3 text-base font-heading font-medium border-b border-white/5 ${
-                    pathname === link.href ? "text-gold-300" : "text-white/80"
-                  }`}
-                >
-                  {link.label}
+          <>
+            <motion.button
+              key="scrim"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              onClick={() => setOpen(false)}
+              aria-label="Close menu"
+              className="2xl:hidden fixed inset-0 top-20 z-40 bg-ink/50 backdrop-blur-[2px]"
+            />
+            <motion.nav
+              key="drawer"
+              id="mobile-nav"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", stiffness: 420, damping: 38, mass: 0.7 }}
+              style={{ willChange: "transform" }}
+              className="2xl:hidden fixed top-20 right-0 bottom-0 z-50 w-[82vw] max-w-xs bg-frame-950 border-l border-white/10 shadow-soft overflow-y-auto overscroll-contain"
+            >
+              <div className="flex flex-col gap-1 px-5 py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    className={`py-3 text-base font-heading font-medium border-b border-white/5 ${
+                      pathname === link.href ? "text-gold-300" : "text-white/80"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+                <Link href="/contact" onClick={() => setOpen(false)} className="btn-gold w-full mt-5">
+                  <CalendarCheck className="w-4 h-4" />
+                  Book Free Consultation
                 </Link>
-              ))}
-              <Link href="/contact" className="btn-gold w-full mt-5">
-                <CalendarCheck className="w-4 h-4" />
-                Book Free Consultation
-              </Link>
-            </div>
-          </motion.nav>
+              </div>
+            </motion.nav>
+          </>
         )}
       </AnimatePresence>
+
     </header>
   );
 }

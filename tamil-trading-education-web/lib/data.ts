@@ -60,6 +60,103 @@ export const xmPartner = {
   note: "Message us on WhatsApp and we'll walk you through XM account setup directly.",
 };
 
+/**
+ * VIP membership plans. Prices are in USD, matching how they're quoted in
+ * our promotional material. Everything the pricing UI renders — savings,
+ * badges, strike-through pricing — is derived from these values, so
+ * changing a price here updates the whole page.
+ */
+export const vipPlans = [
+  {
+    id: "1-month",
+    label: "1 Month",
+    months: 1,
+    price: 100,
+    perMonth: 100,
+    tagline: "Try the community risk-free for a full month.",
+  },
+  {
+    id: "3-month",
+    label: "3 Months",
+    months: 3,
+    price: 200,
+    perMonth: 66.67,
+    listPrice: 300,
+    savingPct: 33,
+    savingAmount: 100,
+    tagline: "Enough time to build a real routine and see it working.",
+  },
+  {
+    id: "6-month",
+    label: "6 Months",
+    months: 6,
+    price: 300,
+    perMonth: 50,
+    listPrice: 600,
+    savingPct: 50,
+    savingAmount: 300,
+    recommended: true,
+    tagline: "Our best-value plan — half price, and long enough to change how you trade.",
+  },
+  {
+    id: "lifetime",
+    label: "Lifetime",
+    months: null,
+    price: 1000,
+    perMonth: null,
+    listPrice: 2000,
+    savingPct: 50,
+    savingAmount: 1000,
+    lifetime: true,
+    tagline: "One payment. Permanent access to every future session and release.",
+  },
+];
+
+export const vipBenefits = [
+  {
+    icon: "Signal",
+    title: "VIP Trading Signals",
+    description:
+      "Educational trade ideas with entry logic, invalidation and target structure explained — so you learn the reasoning, not just the level.",
+  },
+  {
+    icon: "UserRound",
+    title: "1-to-1 Mentorship",
+    description:
+      "Direct personal guidance on your own charts, your own journal and your own recurring mistakes.",
+  },
+  {
+    icon: "UserPlus",
+    title: "Account Opening & IB Change Support",
+    description:
+      "Full walkthrough for opening a new account with a partner broker, or moving an existing account under our IB.",
+  },
+  {
+    icon: "ArrowLeftRight",
+    title: "Deposit & Withdrawal Support",
+    description:
+      "A dedicated relationship manager for funding issues — most queries resolved within 24 hours.",
+  },
+  {
+    icon: "Coins",
+    title: "USDT Buying & Selling",
+    description:
+      "Guided help converting between INR and USDT for broker funding, at transparent rates.",
+  },
+  {
+    icon: "Send",
+    title: "Telegram Community Access",
+    description:
+      "The private VIP channel — daily discussion, session recaps and mentor Q&A windows.",
+  },
+  {
+    icon: "Headset",
+    title: "24/7 Customer Support",
+    description:
+      "Someone is reachable whenever the market is open, and outside it too.",
+  },
+];
+
 export const ibPartners = [
   { name: vantagePartner.name },
   { name: octafxPartner.name },
