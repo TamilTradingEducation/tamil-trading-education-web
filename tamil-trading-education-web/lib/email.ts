@@ -18,7 +18,7 @@ interface SendLeadEmailArgs {
  * .env.example to enable real delivery.
  */
 export async function sendLeadEmail({ subject, heading, fields }: SendLeadEmailArgs) {
-  const to = process.env.LEAD_NOTIFICATION_EMAIL || "info@tamiltradingeducation.com";
+  const to = process.env.LEAD_NOTIFICATION_EMAIL || "info@tamiltradingeducation.in";
   const from = process.env.RESEND_FROM_EMAIL || "Tamil Trading Education <onboarding@resend.dev>";
 
   const rows = Object.entries(fields)

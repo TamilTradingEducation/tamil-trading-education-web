@@ -27,7 +27,11 @@ export const site = {
   youtube: "https://www.youtube.com/channel/UCGTpxTnLjofbkUPGzgaB0Nw",
   tradingview: "https://in.tradingview.com/u/kripsonfx97/",
   x: "https://x.com/tamiltradingedc",
-  domain: "https://www.tamiltradingeducation.com",
+  // PRODUCTION DOMAIN — single source of truth.
+  // Feeds canonical URLs, sitemap.xml, robots.txt, Open Graph tags and
+  // JSON-LD structured data. Must exactly match the canonical domain
+  // configured in Vercel (no trailing slash, no "www").
+  domain: "https://tamiltradingeducation.in",
 };
 
 /**
