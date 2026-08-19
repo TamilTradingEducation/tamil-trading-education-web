@@ -176,7 +176,7 @@ export default function BrokerAssistancePage() {
                   rel="noopener noreferrer"
                   className="btn-gold w-full text-base font-extrabold"
                 >
-                  Change IB to Tamil Trading Education
+                  Change IB to Tamil Trading
                 </a>
               </div>
             </Reveal>

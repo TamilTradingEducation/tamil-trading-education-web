@@ -30,7 +30,11 @@ export default function AdvancedChart({ symbol = "OANDA:XAUUSD", height = 520 }:
     script.async = true;
     script.innerHTML = JSON.stringify({
       symbol,
-      interval: "60",
+      // 15-minute candles. Was "60" (hourly) — a new hourly candle only
+      // forms once per hour, so the chart looked frozen even though the
+      // TradingView feed was live the whole time. 15m shows genuine price
+      // movement without being noisy. Data is real OANDA XAU/USD.
+      interval: "15",
       timezone: "Asia/Kolkata",
       theme: "dark",
       style: "1",

@@ -57,7 +57,10 @@ const stories = [
   {
     name: "Naveen S.",
     location: "Dindigul, Tamil Nadu",
-    image: images.multipleMonitors,
+    // NOTE: was images.multipleMonitors, whose Unsplash ID no longer
+    // resolves (dead hotlink) — that was the missing photo. Swapped to a
+    // chart image rather than a stock photo of an unrelated person.
+    image: images.candlestickChart,
     rating: 4,
     milestone: "Moved from random entries to a written playbook",
     detail:

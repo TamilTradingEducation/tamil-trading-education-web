@@ -19,7 +19,7 @@ import { site, stats } from "@/lib/data";
 import AnimatedCounter from "@/components/shared/AnimatedCounter";
 import TiltCard from "@/components/shared/TiltCard";
 
-const SLIDE_DURATION = 6500;
+const SLIDE_DURATION = 7000;
 
 function ChartVisual() {
   return (
@@ -193,6 +193,14 @@ export default function Hero() {
   const [paused, setPaused] = useState(false);
   const [direction, setDirection] = useState(1);
 
+  // Don't run the slider while the tab is in the background — it burns
+  // battery on mobile and causes a burst of queued transitions on return.
+  useEffect(() => {
+    const onVis = () => setPaused(document.hidden);
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, []);
+
   useEffect(() => {
     if (paused) return;
     const timer = setInterval(() => {
@@ -234,19 +242,32 @@ export default function Hero() {
 
       <div className="container relative py-20 sm:py-28 md:py-32">
         <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-10 lg:gap-14 items-center">
-          <div style={{ perspective: 1400 }}>
-            <AnimatePresence mode="wait" custom={direction}>
+          <div className="grid" style={{ perspective: 1400 }}>
+            {/*
+              ROOT CAUSE OF THE HERO LAG: this used AnimatePresence
+              mode="wait", which runs the OUTGOING slide's exit animation to
+              completion BEFORE starting the incoming slide's entrance. At
+              0.55s each that's 1.1s per change with a blank gap in the
+              middle — exactly the "waits before moving" feeling.
+
+              Now the two slides CROSSFADE (no mode="wait"), overlapping in
+              absolute position, and the duration is cut to 0.4s. Only
+              opacity and transform animate — both GPU-composited — so no
+              layout work happens per frame.
+            */}
+            <AnimatePresence initial={false} custom={direction}>
               <motion.div
                 key={active}
                 custom={direction}
-                initial={{ opacity: 0, rotateY: 28 * direction, y: 18 }}
-                animate={{ opacity: 1, rotateY: 0, y: 0 }}
-                exit={{ opacity: 0, rotateY: -28 * direction, y: -12 }}
-                transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                style={{ transformStyle: "preserve-3d" }}
+                initial={{ opacity: 0, x: 40 * direction }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -40 * direction }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                style={{ willChange: "transform, opacity" }}
+                className="col-start-1 row-start-1"
               >
                 <span className="eyebrow">{slide.eyebrow}</span>
-                <h1 className="text-[2.1rem] leading-[1.1] sm:text-5xl lg:text-[3.6rem] font-heading font-bold sm:leading-[1.05] mb-5 sm:mb-6">
+                <h1 className="fluid-h1 font-heading font-bold mb-5 sm:mb-6">
                   {slide.title}
                 </h1>
                 <p className="text-base sm:text-lg text-ink/65 max-w-xl mb-7 sm:mb-9 leading-relaxed">
@@ -276,16 +297,17 @@ export default function Hero() {
             </AnimatePresence>
           </div>
 
-          <div className="relative mx-auto w-full max-w-sm lg:max-w-none" style={{ perspective: 1400 }}>
-            <AnimatePresence mode="wait" custom={direction}>
+          <div className="relative mx-auto grid w-full max-w-sm lg:max-w-none" style={{ perspective: 1400 }}>
+            <AnimatePresence initial={false} custom={direction}>
               <motion.div
                 key={active}
                 custom={direction}
-                initial={{ opacity: 0, rotateY: -22 * direction, scale: 0.94 }}
-                animate={{ opacity: 1, rotateY: 0, scale: 1 }}
-                exit={{ opacity: 0, rotateY: 22 * direction, scale: 0.96 }}
-                transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                style={{ transformStyle: "preserve-3d" }}
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                style={{ willChange: "transform, opacity" }}
+                className="col-start-1 row-start-1 w-full"
               >
                 {slide.visual}
               </motion.div>

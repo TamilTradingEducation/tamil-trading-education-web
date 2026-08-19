@@ -138,6 +138,41 @@ body {
 
   /* Mobile vertical rhythm tightened (was py-20 = 80px top AND bottom on
      phones, which stacked into very large empty gaps between sections). */
+  /*
+    FLUID RESPONSIVE CONTAINER.
+
+    width:100% + max-width via clamp() + margin-inline:auto + fluid padding.
+    The max-width grows smoothly from 1200px on a laptop up to 1800px on a
+    very wide display, tracking 92% of the viewport in between — so a 28" or
+    32" monitor genuinely uses its width while content stays centred and
+    line lengths stay readable. There is no per-monitor breakpoint.
+  */
+  .container {
+    width: 100%;
+    max-width: clamp(1200px, 92vw, 1800px);
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 3vw, 3rem);
+  }
+
+  /* Below 1200px the clamp floor would exceed the viewport, so fall back to
+     pure fluid width. */
+  @media (max-width: 1200px) {
+    .container {
+      max-width: 100%;
+    }
+  }
+
+  /* Fluid type — scales continuously instead of jumping at breakpoints,
+     preventing tiny headings on large screens and oversized ones on phones. */
+  .fluid-h1 {
+    font-size: clamp(2rem, 1.2rem + 3.4vw, 4rem);
+    line-height: 1.06;
+  }
+  .fluid-h2 {
+    font-size: clamp(1.5rem, 1.05rem + 1.9vw, 2.75rem);
+    line-height: 1.12;
+  }
+
   .section {
     @apply py-12 sm:py-20 md:py-28;
   }

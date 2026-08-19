@@ -8,20 +8,12 @@ const config: Config = {
     "./lib/**/*.{ts,tsx}",
   ],
   theme: {
-    container: {
-      center: true,
-      padding: { DEFAULT: "1.25rem", sm: "1.5rem", xl: "2rem" },
-      // Scales up on very large/ultrawide displays instead of capping at
-      // 1280px — a 32" or curved monitor now actually uses its width.
-      screens: {
-        sm: "640px",
-        md: "768px",
-        lg: "1024px",
-        xl: "1280px",
-        "2xl": "1440px",
-        "3xl": "1720px",
-      },
-    },
+    // Container is intentionally NOT Tailwind's stepped container plugin.
+    // That capped width at fixed breakpoints, so a 28" or 32" monitor got
+    // exactly the same content width as a 24" one with huge dead margins.
+    // The `.container` class is now defined in globals.css using clamp(),
+    // so width scales continuously with the viewport instead of jumping at
+    // arbitrary breakpoints. No "28-inch breakpoint" exists or is needed.
     screens: {
       sm: "640px",
       md: "768px",
