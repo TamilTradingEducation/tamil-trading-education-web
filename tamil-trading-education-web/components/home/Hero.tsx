@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import {
   MessageCircle,
@@ -11,15 +11,17 @@ import {
   CalendarCheck,
   Star,
   BadgeCheck,
-  Youtube,
-  UserCheck,
 } from "lucide-react";
 import { images } from "@/lib/images";
 import { site, stats } from "@/lib/data";
 import AnimatedCounter from "@/components/shared/AnimatedCounter";
 import TiltCard from "@/components/shared/TiltCard";
 
-const SLIDE_DURATION = 7000;
+// Display interval — how long a slide stays visible. NOT the transition
+// duration; that's SLIDE_TRANSITION below.
+const SLIDE_DURATION = 3000;
+// Transition itself: fast and smooth (within the 500-800ms target).
+const SLIDE_TRANSITION = 0.55;
 
 function ChartVisual() {
   return (
@@ -78,33 +80,146 @@ function PartnersVisual() {
   );
 }
 
-function AccountStepsVisual() {
-  const steps = [
-    { icon: Youtube, text: "Watch the account opening video" },
-    { icon: UserCheck, text: "Open with our referral code" },
-    { icon: BadgeCheck, text: "Get free VIP community access" },
+/**
+ * TELEGRAM COMMUNITY VISUAL — a purpose-built hero graphic, not a screenshot.
+ *
+ * Three message cards sit in a real 3D stack (translateZ + rotateY + scale).
+ * Every ~2.6s the front card rotates away and the one behind it comes
+ * forward, so the composition reads as an active, live channel.
+ *
+ * CONTENT POLICY (deliberate): this shows the FORMAT and FREQUENCY of what
+ * the community receives — how a setup is structured, that market updates
+ * and live sessions happen, that USDT help is available. It intentionally
+ * does NOT reproduce the win/profit figures from the source screenshots
+ * ("140+ pips profit", "monthly target 500+ pips"). Selected winning
+ * results are performance claims, they contradict the site's own
+ * no-guarantee disclaimer, and the brief explicitly said not to add profit
+ * guarantees or unsupported statistics. Price levels are shown only as an
+ * illustrative format sample and labelled as such.
+ */
+function TelegramCommunityVisual() {
+  const [front, setFront] = useState(0);
+  const reduced = useReducedMotion() ?? false;
+
+  const cards = [
+    {
+      tag: "Trade Setup Format",
+      accent: "text-gold-700",
+      body: (
+        <div className="font-mono text-[11px] sm:text-xs space-y-1 text-ink/70">
+          <div className="flex justify-between gap-3">
+            <span className="text-down font-semibold">GOLD SELL</span>
+            <span className="text-ink/45">example</span>
+          </div>
+          <div className="flex justify-between gap-3"><span>Stop loss</span><span className="text-ink/50">defined</span></div>
+          <div className="flex justify-between gap-3"><span>Target 1</span><span className="text-ink/50">defined</span></div>
+          <div className="flex justify-between gap-3"><span>Target 2</span><span className="text-ink/50">defined</span></div>
+          <div className="flex justify-between gap-3"><span>Target 3</span><span className="text-ink/50">defined</span></div>
+        </div>
+      ),
+      footer: "Every setup posted with entry, stop loss and targets",
+    },
+    {
+      tag: "Market Updates",
+      accent: "text-electric-600",
+      body: (
+        <div className="space-y-2">
+          {["XAUUSD session projections", "Chart breakdowns on video", "Live trading sessions"].map((t) => (
+            <div key={t} className="flex items-center gap-2 text-xs sm:text-sm text-ink/65">
+              <span className="w-1.5 h-1.5 rounded-full bg-electric-500 shrink-0" />
+              <span className="min-w-0">{t}</span>
+            </div>
+          ))}
+        </div>
+      ),
+      footer: "Analysis shared through the trading week",
+    },
+    {
+      tag: "Member Support",
+      accent: "text-up",
+      body: (
+        <div className="space-y-2">
+          {["USDT buy & sell guidance", "Deposit & withdrawal help", "Direct access to mentors"].map((t) => (
+            <div key={t} className="flex items-center gap-2 text-xs sm:text-sm text-ink/65">
+              <BadgeCheck className="w-3.5 h-3.5 text-up shrink-0" />
+              <span className="min-w-0">{t}</span>
+            </div>
+          ))}
+        </div>
+      ),
+      footer: "Practical help beyond the charts",
+    },
   ];
+
+  useEffect(() => {
+    if (reduced) return;
+    const t = setInterval(() => setFront((i) => (i + 1) % cards.length), 2600);
+    return () => clearInterval(t);
+  }, [reduced, cards.length]);
+
   return (
-    <TiltCard className="p-6 sm:p-7">
-      <p className="font-heading font-semibold text-sm text-ink mb-6">Open Your Account in 3 Steps</p>
-      <div className="space-y-4">
-        {steps.map((s, i) => (
-          <motion.div
-            key={s.text}
-            initial={{ opacity: 0, x: -12 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.15 + i * 0.1 }}
-            style={{ transform: `translateZ(${10 + i * 6}px)` }}
-            className="flex items-center gap-3"
-          >
-            <span className="w-9 h-9 rounded-lg bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-700 shrink-0">
-              <s.icon className="w-4 h-4" />
-            </span>
-            <span className="text-sm text-ink/70">{s.text}</span>
-          </motion.div>
-        ))}
+    <div className="relative w-full" style={{ perspective: 1200 }}>
+      {/* Channel header — a designed panel, not a captured screenshot */}
+      <div className="glass-card card-notch p-3.5 sm:p-4 mb-3 flex items-center gap-3 min-w-0">
+        <span className="w-10 h-10 rounded-xl bg-gold-gradient flex items-center justify-center shrink-0">
+          <Send className="w-4 h-4 text-ink" />
+        </span>
+        <span className="min-w-0 flex-grow">
+          <span className="block font-heading font-semibold text-sm text-ink truncate">
+            Tamil Trading Education
+          </span>
+          <span className="flex items-center gap-1.5 text-[11px] text-ink/50">
+            <span className="w-1.5 h-1.5 rounded-full bg-up animate-pulseDot" />
+            Private VIP channel
+          </span>
+        </span>
+        <span className="text-right shrink-0">
+          <span className="block font-mono text-sm font-bold text-gold-700">424</span>
+          <span className="block text-[10px] text-ink/45">members</span>
+        </span>
       </div>
-    </TiltCard>
+
+      {/* 3D message stack */}
+      <div className="relative h-[186px] sm:h-[200px] keep-3d" style={{ transformStyle: "preserve-3d" }}>
+        {cards.map((c, i) => {
+          const offset = (i - front + cards.length) % cards.length;
+          return (
+            <motion.div
+              key={c.tag}
+              animate={
+                reduced
+                  ? { opacity: offset === 0 ? 1 : 0 }
+                  : {
+                      z: -offset * 60,
+                      y: offset * 12,
+                      x: offset * 10,
+                      rotateY: offset * -9,
+                      scale: 1 - offset * 0.05,
+                      opacity: offset > 1 ? 0 : 1 - offset * 0.3,
+                    }
+              }
+              transition={{ type: "spring", stiffness: 190, damping: 26 }}
+              style={{
+                transformStyle: "preserve-3d",
+                willChange: "transform, opacity",
+                zIndex: cards.length - offset,
+              }}
+              className="absolute inset-x-0 top-0"
+            >
+              <div className="glass-card card-notch p-4 sm:p-5 min-w-0">
+                <p className={`text-[10px] font-mono uppercase tracking-wider mb-2.5 ${c.accent}`}>
+                  {c.tag}
+                </p>
+                {c.body}
+                <p className="text-[10px] sm:text-[11px] text-ink/45 mt-3 pt-2.5 border-t border-ink/10 leading-snug">
+                  {c.footer}
+                </p>
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
@@ -160,26 +275,26 @@ const slides = [
     visual: <PartnersVisual />,
   },
   {
-    eyebrow: "Get Started Today",
+    eyebrow: "Telegram Community",
     title: (
       <>
-        Open Your <span className="gold-text">Trading Account</span>
+        Join Our <span className="gold-text">Trading Community</span>
       </>
     ),
     description:
-      "Step-by-step account opening guidance for every partner broker — watch the walkthrough on our YouTube channel, use our referral code, and start trading with support behind you.",
+      "Trade setups posted with entry, stop loss and targets. XAUUSD session projections, chart breakdowns, live sessions, and direct help with USDT, deposits and withdrawals — all inside our Telegram channel.",
     buttons: (
       <>
-        <a href={site.youtube} target="_blank" rel="noopener noreferrer" className="btn-gold">
-          <Youtube className="w-4 h-4" /> Watch on YouTube
+        <a href={site.telegram} target="_blank" rel="noopener noreferrer" className="btn-gold">
+          <Send className="w-4 h-4" /> Join Telegram Community
         </a>
-        <Link href="/broker-assistance" className="btn-outline">
-          Open Account <ArrowRight className="w-4 h-4" />
+        <Link href="/vip-community" className="btn-outline">
+          See What&apos;s Inside <ArrowRight className="w-4 h-4" />
         </Link>
       </>
     ),
     showStats: false,
-    visual: <AccountStepsVisual />,
+    visual: <TelegramCommunityVisual />,
   },
 ];
 
@@ -190,29 +305,42 @@ export default function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0.3]);
 
   const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [tick, setTick] = useState(0);
   const [direction, setDirection] = useState(1);
 
   // Don't run the slider while the tab is in the background — it burns
   // battery on mobile and causes a burst of queued transitions on return.
   useEffect(() => {
-    const onVis = () => setPaused(document.hidden);
+    const onVis = () => setHidden(document.hidden);
     document.addEventListener("visibilitychange", onVis);
     return () => document.removeEventListener("visibilitychange", onVis);
   }, []);
 
+  /*
+    Autoplay runs CONTINUOUSLY. `tick` is bumped on any manual interaction,
+    which re-runs this effect and therefore restarts the 3s clock from the
+    slide the visitor just chose.
+
+    Previously `goTo` only changed the index without touching the interval,
+    so a tap could be followed almost immediately by an auto-advance — the
+    carousel appeared to "jump" past the slide you picked. Autoplay also
+    used to stop entirely on mouse-enter; it no longer does, since the brief
+    requires it to keep looping.
+  */
   useEffect(() => {
-    if (paused) return;
+    if (hidden) return;
     const timer = setInterval(() => {
       setDirection(1);
       setActive((i) => (i + 1) % slides.length);
     }, SLIDE_DURATION);
     return () => clearInterval(timer);
-  }, [paused]);
+  }, [hidden, tick]);
 
   function goTo(i: number) {
     setDirection(i > active ? 1 : -1);
     setActive(i);
+    setTick((t) => t + 1); // restart the autoplay clock from here
   }
 
   const slide = slides[active];
@@ -221,8 +349,6 @@ export default function Hero() {
     <section
       ref={ref}
       className="relative min-h-[88vh] sm:min-h-[92vh] flex items-center overflow-hidden"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
     >
       <motion.div style={{ y, opacity }} className="absolute inset-0 -z-20">
         <Image
@@ -262,7 +388,7 @@ export default function Hero() {
                 initial={{ opacity: 0, x: 40 * direction }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -40 * direction }}
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: SLIDE_TRANSITION, ease: [0.22, 1, 0.36, 1] }}
                 style={{ willChange: "transform, opacity" }}
                 className="col-start-1 row-start-1"
               >
@@ -305,7 +431,7 @@ export default function Hero() {
                 initial={{ opacity: 0, scale: 0.96 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: SLIDE_TRANSITION, ease: [0.22, 1, 0.36, 1] }}
                 style={{ willChange: "transform, opacity" }}
                 className="col-start-1 row-start-1 w-full"
               >
